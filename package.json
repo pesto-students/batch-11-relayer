@@ -1,56 +1,78 @@
 {
-    "name": "batch-11-relayer",
-    "version": "1.0.0",
-    "main": "index.js",
-    "repository": "https://github.com/pesto-students/batch-11-relayer.git",
-    "author": "Sourav Das ",
-    "license": "MIT",
-    "private": true,
-    "keywords": [
-      "Relayer",
-      "API",
-      "API Integration",
-      "AUtomation"
-    ],
-    "scripts": {
-      "test": "concurrently \"yarn test:client\" \"yarn test:server\"",
-      "test:client": "yarn workspace client test",
-      "test:server": "yarn workspace server test",
-      "test:coverage": "jest --coverage",
-      "build:client":"yarn workspace client build",
-      "start":"yarn workspace server start"
+  "name": "batch-11-relayer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/pesto-students/batch-11-relayer.git",
+  "author": "Sourav Das ",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "Relayer",
+    "API",
+    "API Integration",
+    "AUtomation"
+  ],
+  "scripts": {
+    "test": "concurrently \"yarn test:client\" \"yarn test:server\"",
+    "test:client": "yarn workspace client test",
+    "test:server": "yarn workspace server test",
+    "test:coverage": "jest --coverage",
+    "build:client": "yarn workspace client build",
+    "start": "yarn workspace server start",
+    "client:lint": "yarn workspace client lint",
+    "server:lint": "yarn workspace server lint",
+    "lint": "concurrently \"yarn client:lint\" \"yarn server:lint\""
+  },
+  "contributors": [
+    {
+      "name": "Sourav Das",
+      "email": "souravdasslg95@gmail.com",
+      "url": "https://github.com/souravdasslg"
     },
-    "contributors": [
-      {
-        "name": "Sourav Das",
-        "email": "souravdasslg95@gmail.com",
-        "url": "https://github.com/souravdasslg"
-      },
-      {
-        "name": "Rakesh UP",
-        "email": "parthiban.rakesh95@gmail.com",
-        "url": "https://github.com/RakeshUP"
-      },
-      {
-        "name": "Basant Soni",
-        "email": "basantech89@protonmail.com",
-        "url": "https://github.com/basantech89"
-      },
-      {
-        "name": "Yash Pandit",
-        "email": "hireyashpandit@gmail.com",
-        "url": "https://github.com/yashpandit"
-      }
-    ],
-    "devDependencies": {
-      "concurrently": "^5.0.0",
-      "jest": "^24.9.0"
+    {
+      "name": "Rakesh UP",
+      "email": "parthiban.rakesh95@gmail.com",
+      "url": "https://github.com/RakeshUP"
     },
-    "workspaces": [
-      "client",
-      "server"
-    ],
-    "dependencies": {
-      "request": "^2.88.0"
+    {
+      "name": "Basant Soni",
+      "email": "basantech89@protonmail.com",
+      "url": "https://github.com/basantech89"
+    },
+    {
+      "name": "Yash Pandit",
+      "email": "hireyashpandit@gmail.com",
+      "url": "https://github.com/yashpandit"
+    }
+  ],
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-monorepo": "^0.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "dependencies": {
+    "request": "^2.88.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && git add --all"
     }
   }
+}
