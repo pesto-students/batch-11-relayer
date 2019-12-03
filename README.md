@@ -1,11 +1,9 @@
 ## batch-11-relayer
 
 [![Build Status](https://travis-ci.com/pesto-students/batch-11-relayer.svg?branch=master)](https://travis-ci.com/pesto-students/batch-11-relayer)
-	
 ### Project Specs
 
 - [Notion](https://www.notion.so/pesto/Batch-11-project-specs-40cef8d675c04ac0b72a7c2995073781)
-
 
 ### Instructions
 
