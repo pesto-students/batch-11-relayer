@@ -1,0 +1,56 @@
+{
+    "name": "batch-11-relayer",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/pesto-students/batch-11-relayer.git",
+    "author": "Sourav Das ",
+    "license": "MIT",
+    "private": true,
+    "keywords": [
+      "Relayer",
+      "API",
+      "API Integration",
+      "AUtomation"
+    ],
+    "scripts": {
+      "test": "concurrently \"yarn test:client\" \"yarn test:server\"",
+      "test:client": "yarn workspace client test",
+      "test:server": "yarn workspace server test",
+      "test:coverage": "jest --coverage",
+      "build:client":"yarn workspace client build",
+      "start":"yarn workspace server start"
+    },
+    "contributors": [
+      {
+        "name": "Sourav Das",
+        "email": "souravdasslg95@gmail.com",
+        "url": "https://github.com/souravdasslg"
+      },
+      {
+        "name": "Rakesh UP",
+        "email": "parthiban.rakesh95@gmail.com",
+        "url": "https://github.com/RakeshUP"
+      },
+      {
+        "name": "Basant Soni",
+        "email": "basantech89@protonmail.com",
+        "url": "https://github.com/basantech89"
+      },
+      {
+        "name": "Yash Pandit",
+        "email": "hireyashpandit@gmail.com",
+        "url": "https://github.com/yashpandit"
+      }
+    ],
+    "devDependencies": {
+      "concurrently": "^5.0.0",
+      "jest": "^24.9.0"
+    },
+    "workspaces": [
+      "client",
+      "server"
+    ],
+    "dependencies": {
+      "request": "^2.88.0"
+    }
+  }
