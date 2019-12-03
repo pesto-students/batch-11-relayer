@@ -1,8 +1,15 @@
-import React from "react";
-import LandingPage from "./components/LandingPage";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Main from './Main';
+import './assets/styles/main.scss';
+
 
 function App() {
-  return <LandingPage />;
+  return (
+    <BrowserRouter>
+      <Main />
+    </BrowserRouter>
+  );
 }
 
 export default App;

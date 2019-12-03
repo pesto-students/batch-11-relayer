@@ -1,3 +1,3 @@
-import TaskHistory from "./TaskHistory";
+import TaskHistory from './TaskHistory';
 
 export default TaskHistory;

@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const LandingPage = () => {
-  return <h1>LandingPage</h1>;
-};
+const LandingPage = () => (
+  <NavLink to="/signup"> Navigate to Signup </NavLink>
+);
 
 export default LandingPage;
