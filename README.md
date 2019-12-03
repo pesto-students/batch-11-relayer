@@ -1,14 +1,14 @@
-
 ## batch-11-relayer
 
 [![Build Status](https://travis-ci.com/pesto-students/batch-11-relayer.svg?branch=master)](https://travis-ci.com/pesto-students/batch-11-relayer)
-	
+
 ### Project Specs
+
 - [Notion](https://www.notion.so/pesto/Batch-11-project-specs-40cef8d675c04ac0b72a7c2995073781)
 
-
 ### Instructions
-- Please create a issue first and then attach that issue to the PR, so that every one know what’s the need of the PR. Attaching issues to the PR using github keywords, will close the issues once the PR is merged. More info [here]((https://help.github.com/en/articles/closing-issues-using-keywords)).
+
+- Please create a issue first and then attach that issue to the PR, so that every one know what’s the need of the PR. Attaching issues to the PR using github keywords, will close the issues once the PR is merged. More info [here](https://help.github.com/en/articles/closing-issues-using-keywords).
 
 - Please follow a common git commit style guide. Somewhat similar to [this guide](https://udacity.github.io/git-styleguide/)
 
@@ -26,4 +26,3 @@
 - GIFs/ video for frontend prs.
 - Review each other PRs.
 - don’t commit in someone else pr
-  
