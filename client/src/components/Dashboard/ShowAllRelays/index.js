@@ -1,3 +1,3 @@
-import ShowAllRelays from "./ShowAllRelays";
+import ShowAllRelays from './ShowAllRelays';
 
 export default ShowAllRelays;
