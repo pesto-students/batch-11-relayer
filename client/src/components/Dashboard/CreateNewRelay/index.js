@@ -1,3 +1,3 @@
-import CreateNewRelay from "./CreateNewRelay";
+import CreateNewRelay from './CreateNewRelay';
 
 export default CreateNewRelay;
