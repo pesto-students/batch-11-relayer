@@ -1,3 +1,3 @@
-import MyApps from "./MyApps";
+import MyApps from './MyApps';
 
 export default MyApps;
