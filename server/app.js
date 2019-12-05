@@ -1,18 +1,21 @@
 /* eslint-disable import/no-dynamic-require */
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-require('dotenv').config();
-const mongoose = require('mongoose');
-const pino = require('express-pino-logger')();
-const logger = require('./utils/logger');
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import fs from 'fs';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+import pino from 'express-pino-logger';
+import logger from './utils/logger';
+
+dotenv.config();
 
 const app = express();
 const modelDirPath = path.join(__dirname, 'models');
 const routeDirPath = path.join(__dirname, 'routes');
 
-app.use(pino);
+app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,6 +45,17 @@ app.use((err, req, res) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+mongoose.connect(process.env.DB_HOST, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+mongoose.connection.on('error', (err) => {
+  logger.error(err);
+});
+mongoose.connection.on('connected', () => {
+  logger.info('Connected To DB');
 });
 
 mongoose.connect(process.env.DB_HOST, {
