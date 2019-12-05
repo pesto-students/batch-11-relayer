@@ -43,8 +43,7 @@ app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
-mongoose.connect(process.env.DB_HOST, {
+mongoose.connect(process.env.MONGO_URL || process.env.DB_HOST, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
