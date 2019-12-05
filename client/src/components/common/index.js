@@ -1,3 +1,5 @@
 import Header from './Header';
+import Select from './Select';
+import Heading from './Heading';
 
-export { Header };
+export { Header, Select, Heading };
