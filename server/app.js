@@ -4,6 +4,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
+
 import pino from 'express-pino-logger';
 import logger from './utils/logger';
 
@@ -40,19 +41,15 @@ app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
 mongoose.connect(process.env.DB_HOST, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
-
 mongoose.connection.on('error', (err) => {
   logger.error(err);
 });
-
 mongoose.connection.on('connected', () => {
   logger.info('Connected To DB');
 });
-
 module.exports = app;
