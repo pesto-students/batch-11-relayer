@@ -2,10 +2,9 @@ import React from 'react';
 import { Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const Select = (props) => {
-  const {
-    name, _id, isRequired, options,
-  } = props;
+const Select = ({
+  name, _id, isRequired, options,
+}) => {
   return (
     <Input type="select" name={name} id={_id} required={isRequired}>
       {options.map((option) => <option>{option}</option>)}
