@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../app.js');
+const actionStatus = require('../constants/actionStatus');
 
 describe('User Test', () => {
   describe('User Signup', () => {
@@ -10,10 +11,12 @@ describe('User Test', () => {
         .send({ email: 'sourav@pesto.tech', password: '12345678' })
         .expect(200)
         .end((err, res) => {
-          expect(err).toBeNull();
-          expect(res.body.error).toBe(false);
-          expect(res.body.authToken).toBeTruthy();
-          expect(res.body.password).toBeNull();
+          const { error, status, body } = res.body;
+          expect(err).toBeFalsy();
+          expect(error).toBe(false);
+          expect(status).toBe(actionStatus.SUCCESS);
+          expect(body.authToken).toBeTruthy();
+          expect(body.password).toBeFalsy();
           done();
         });
     });
@@ -24,10 +27,14 @@ describe('User Test', () => {
         .send({ email: 'sourav@pesto.tech', password: '12345678' })
         .expect(200)
         .end((err, res) => {
-          expect(err).toBeNull();
+          const {
+            error, status, body,
+          } = res.body;
+          expect(err).toBeFalsy();
           expect(res.statusCode).toBe(200);
-          expect(res.body.error).toBe(true);
-          expect(res.body.password).toBeNull();
+          expect(status).toBe(actionStatus.NOT_ALLOWED);
+          expect(error).toBe(true);
+          expect(body.password).toBeFalsy();
           done();
         });
     });
@@ -38,10 +45,10 @@ describe('User Test', () => {
         .send({ email: 'sourav@pesto.tech' })
         .expect(200)
         .end((err, res) => {
-          expect(err).toBeNull();
+          expect(err).toBeFalsy();
           expect(res.body.error).toBe(true);
           expect(res.statusCode).toBe(200);
-          expect(res.body.password).toBeNull();
+          expect(res.body.password).toBeFalsy();
           done();
         });
     });
