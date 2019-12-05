@@ -1,5 +1,15 @@
 import React from 'react';
+import { Container } from 'reactstrap';
+import Filters from './Filters';
+import RelayHistoryList from './RelayHistoryList';
 
-const TaskHistory = () => <h1>TaskHistory</h1>;
+const TaskHistory = () => {
+  return (
+    <Container>
+      <Filters />
+      <RelayHistoryList />
+    </Container>
+  );
+};
 
 export default TaskHistory;
