@@ -13,11 +13,12 @@ const RelayParticipantApp = new Schema(
   { timestamps: true },
 );
 
-const Relays = new Schema({
+const Relay = new Schema({
   relayId: { type: String, default: shortid.generate },
   participantApp: [RelayParticipantApp],
   status: { type: String, default: String },
   isPublished: { type: Boolean, default: true },
-  userId: { type: String, required: true}
+  userId: { type: String, required: true },
+
 });
-mongoose.model('Relays', Relays);
+mongoose.model('Relay', Relay);

@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import response from '../lib/responseLib.js';
+import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 
-const RelayCollection = mongoose.model('RelayCollection');
+const RelayCollection = mongoose.model('Relay');
 
 const getMyRelays = async (req, res) => {
   const { userId } = req.user;
@@ -28,4 +28,4 @@ const toggleRelayStatus = async (req, res) => {
   const generatedResponse = response.generateResponse(false, 200, actionStatus.SUCCESS, updatedRelay);
   res.send(generatedResponse);
 };
-module.exports = { getMyRelays , toggleRelayStatus };
+module.exports = { getMyRelays, toggleRelayStatus };
