@@ -5,7 +5,7 @@ import * as actionStatus from '../constants/actionStatus';
 const AppsCollection = mongoose.model('Apps');
 
 const createApp = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const createdApp = await AppsCollection.create(req.body);
   res.send(createdApp);
 };
