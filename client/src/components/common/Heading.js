@@ -1,13 +1,15 @@
 import React from 'react';
-import { Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const Heading = (props) => {
   const { title } = props;
   return (
-    <Col className="align-center">
-      <h3 className="heading mt-5 mb-5">{title}</h3>
-    </Col>
+    <Row>
+      <Col className="align-center">
+        <h3 className="heading mt-5 mb-5">{title}</h3>
+      </Col>
+    </Row>
   );
 };
 
