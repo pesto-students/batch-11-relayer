@@ -8,6 +8,10 @@ const uriObject = {
     method: 'POST',
     url: `${baseURL}/user/signin`,
   },
+  getAllApps: {
+    method: 'GET',
+    url: `${baseURL}/app/get/all`,
+  },
 };
 const prepareRequest = (key) => {
   return uriObject[key];
