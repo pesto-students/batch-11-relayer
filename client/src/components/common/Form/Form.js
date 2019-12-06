@@ -5,7 +5,7 @@ import {
 } from 'reactstrap';
 
 const Form = ({ formFields }) => {
-  const RenderFields = () => formFields.map(field => {
+  const RenderFields = () => formFields.map((field) => {
     if (field.type === 'input') {
       return (
         <FormGroup row>

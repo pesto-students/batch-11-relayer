@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from 'reactstrap';
+import { Row , Button} from 'reactstrap';
 import SelectApp from './SelectApp';
 import SelectTrigger from './SelectTrigger';
 import prepareRequest from '../../../utils/requestEPLib';
@@ -20,7 +20,6 @@ class SelectRelay extends React.Component {
       appDetails: response.body,
     });
   }
-
   render() {
     const { appDetails } = this.state;
     return (

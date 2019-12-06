@@ -24,7 +24,7 @@ const SignupForm = (props) => {
   };
   return (
     <Form formFields={[emailInput, passwordInput]}>
-{/*
+      {/*
       <FormGroup row>
         <Label for="email" sm={12} md={2}> Email </Label>
         <Col sm={12} md={5}>
