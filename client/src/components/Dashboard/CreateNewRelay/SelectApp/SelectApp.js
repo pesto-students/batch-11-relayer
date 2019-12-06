@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Col,Button
+  Col, Button,
 } from 'reactstrap';
 import ArrowImg from '../ArrowImg';
 import { Select, LabelItem } from '../../../common';
