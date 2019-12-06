@@ -8,7 +8,7 @@ const CreateConfiguration = () => {
   return (
     <>
       <Container>
-        <Heading title="Configure Relay" />
+        <Heading styling="mt-5 mb-5" title="Configure Relay" />
         <ConfigurationOptions />
         <UseRelay />
       </Container>
