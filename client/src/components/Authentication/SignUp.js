@@ -12,7 +12,7 @@ const SignUp = () => {
   const signUp = async (event) => {
     event.preventDefault();
     const requestObj = prepareRequest('signUp');
-    requestObj.body = { email:'email', password: 'pass' };
+    requestObj.body = { email: 'email', password: 'pass' };
     const response = await request(requestObj);
     console.log(response);
   };
