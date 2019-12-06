@@ -7,3 +7,9 @@ module.exports.hashPassword = (plainText) => new Promise((resolve, reject) => {
     resolve(hash);
   });
 });
+module.exports.comparePassword = (plainText, hashedText) => new Promise((resolve, reject) => {
+  bcrypt.compare(plainText, hashedText, (err, result) => {
+    if (err) reject(err);
+    resolve(result);
+  });
+});
