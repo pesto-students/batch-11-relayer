@@ -18,5 +18,6 @@ const Relays = new Schema({
   participantApp: [RelayParticipantApp],
   status: { type: String, default: String },
   isPublished: { type: Boolean, default: true },
+  userId: { type: String, required: true}
 });
 mongoose.model('Relays', Relays);

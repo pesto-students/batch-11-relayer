@@ -4,12 +4,11 @@ import shortid from 'shortid';
 const Events = new Schema(
   {
     eventId: { type: String, default: shortid.generate },
-    appId: { type: Schema.Types.ObjectId, ref: 'Apps' },
     appApiUrl: { type: String, required: true },
-    appApiVersion: Number,
+    appApiVersion: { type: String },
     inputsNeeded: [{ type: String }],
     outputsWeGet: [{ type: String }],
-  },
+  }, { _id: false, timestamps: true },
 );
 
 const Apps = new Schema(

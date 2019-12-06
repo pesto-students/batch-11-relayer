@@ -31,7 +31,9 @@ for (const route in routes) {
     app.use(routeObject.path, routeObject.router);
   }
 }
+// authorize router
 app.use('/', authorize);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

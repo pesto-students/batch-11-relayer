@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
 });
 router.post('/signup', userController.createUser);
 router.post('/signin', userController.signIn);
+router.post('/authenticate', userController.getAuthenticatedUserDetails);
+
 module.exports = {
   path: '/user',
   router,
