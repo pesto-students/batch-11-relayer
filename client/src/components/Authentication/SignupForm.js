@@ -2,15 +2,29 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import {
-  Form, Col, Button, Input, FormGroup, Label,
+  Col, Button, Input, FormGroup, Label,
 } from 'reactstrap';
+import Form from '../common/Form/Form';
 
 const SignupForm = (props) => {
   const { signUp } = props;
-  const email = createRef();
-  const pass = createRef();
+  const emailInput = {
+    type: 'input',
+    inputType: 'email',
+    id: 'email',
+    label: 'Email',
+    placeholder: 'username@example.com',
+  };
+  const passwordInput = {
+    type: 'input',
+    inputType: 'password',
+    id: 'pass',
+    label: 'Password',
+    placeholder: 'P@ssw0rd',
+  };
   return (
-    <Form>
+    <Form formFields={[emailInput, passwordInput]}>
+{/*
       <FormGroup row>
         <Label for="email" sm={12} md={2}> Email </Label>
         <Col sm={12} md={5}>
@@ -30,6 +44,7 @@ const SignupForm = (props) => {
         Already a member? &nbsp;
         <NavLink to="/signin"> Sign In </NavLink>
       </Col>
+*/}
     </Form>
   );
 };
