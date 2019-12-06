@@ -19,4 +19,4 @@ const Relays = new Schema({
   status: { type: String, default: String },
   isPublished: { type: Boolean, default: true },
 });
-mongoose.model(Relays, 'Relays');
+mongoose.model('Relays', Relays);

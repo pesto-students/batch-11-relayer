@@ -1,22 +1,31 @@
 
 import qs from 'qs';
+import request from 'request';
 
-const request = async (options) => {
-  const {
-    url, method, headers, body, responseOptions,query
-  } = options;
-  const authToken = localStorage.getItem('authtoken');
-  const queryString = qs.stringify(query);
-  const requestOptions = {
-    method: method || 'GET',
-    headers: {
-      ...headers,
-      authorization: `Bearer ${authToken}`,
-    },
-    body: JSON.stringify(body),
-  };
-  const response = await fetch(`${url}?${queryString}`, requestOptions);
-  const parsedResponse = responseOptions.type === 'json' ? response.json() : response;
-  return parsedResponse;
+const makeRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    const {
+      url, method, headers, body, query,
+    } = options;
+    const authToken = localStorage.getItem('authtoken');
+    const queryString = qs.stringify(query);
+    const requestOptions = {
+      url: `${url}?${queryString}`,
+      method: method || 'GET',
+      headers: {
+        ...headers,
+        authorization: `Bearer ${authToken}`,
+      },
+    };
+    if (body) {
+      requestOptions.json = body;
+    }
+    request(requestOptions, (err, response, responseBody) => {
+      if (err) reject(err);
+      if (response.statusCode === 200) {
+        resolve(JSON.parse(responseBody));
+      } else reject(new Error('Request Crashed'));
+    });
+  });
 };
-export default request;
+export default makeRequest;
