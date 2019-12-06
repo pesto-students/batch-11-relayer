@@ -40,23 +40,11 @@ app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render('error');
 });
-<<<<<<< HEAD
-=======
-
->>>>>>> Implement changes as per the suggestion
 mongoose.connect(process.env.DB_HOST, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
-<<<<<<< HEAD
-mongoose.connection.on('error', (err) => {
-  logger.error(err);
-});
-mongoose.connection.on('connected', () => {
-  logger.info('Connected To DB');
-});
-=======
 
 mongoose.connection.on('error', (err) => {
   logger.error(err);
@@ -66,5 +54,4 @@ mongoose.connection.on('connected', () => {
   logger.info('Connected To DB');
 });
 
->>>>>>> Implement changes as per the suggestion
 module.exports = app;
