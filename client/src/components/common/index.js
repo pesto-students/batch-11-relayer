@@ -2,7 +2,8 @@ import Header from './Header';
 import Select from './Select';
 import Heading from './Heading';
 import LabelItem from './LabelItem';
+import InputRow from './InputRow';
 
 export {
-  Header, Select, Heading, LabelItem,
+  Header, Select, Heading, LabelItem, InputRow,
 };

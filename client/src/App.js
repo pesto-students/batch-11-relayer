@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Main from './Main';
-import './css/main.css';
+import './assets/styles/main.scss';
 
 function App() {
   return (
