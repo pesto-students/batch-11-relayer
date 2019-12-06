@@ -1,14 +1,20 @@
 import React, { createRef } from 'react';
 import { Container } from 'reactstrap';
 import SignupForm from './SignupForm';
+import prepareRequest from '../../utils/requestEPLib';
+import request from '../../utils/requestLib';
 import '../../assets/styles/components/_signup.module.scss';
 
 const SignUp = () => {
   const email = createRef();
   const pass = createRef();
 
-  const signUp = (event) => {
+  const signUp = async (event) => {
     event.preventDefault();
+    const requestObj = prepareRequest('signUp');
+    requestObj.body = { email, password: pass };
+    const response = await request(requestObj);
+    console.log(response);
   };
 
   return (
