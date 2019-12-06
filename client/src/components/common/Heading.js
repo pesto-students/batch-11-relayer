@@ -7,7 +7,7 @@ const Heading = (props) => {
   return (
     <Row>
       <Col className="align-center">
-        <h3 className="heading mt-5 mb-5">{title}</h3>
+        <h3 className="heading mb-5">{title}</h3>
       </Col>
     </Row>
   );
