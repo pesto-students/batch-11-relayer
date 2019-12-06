@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import { Container } from 'reactstrap';
 import SignupForm from './SignupForm';
-import './signup.scss';
+import '../../assets/styles/components/_signup.module.scss';
 
 const SignUp = () => {
   const email = createRef();

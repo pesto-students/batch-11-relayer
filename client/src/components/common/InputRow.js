@@ -10,10 +10,10 @@ const InputRow = (props) => {
   } = props;
   return (
     <FormGroup row>
-      <Label for="email" sm={12} md={4}>
+      <Label for="email" sm={12} md={2}>
         {label}
       </Label>
-      <Col sm={12} md={8}>
+      <Col sm={12} md={5}>
         <Input type={type} name={id} id={id} placeholder={placeholder} innerRef={ref} />
       </Col>
     </FormGroup>

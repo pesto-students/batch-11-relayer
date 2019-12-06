@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
-import './landing-page.scss';
+import '../../assets/styles/components/_landing-page.module.scss';
 
 const LandingPage = () => {
   return (
@@ -21,5 +21,4 @@ const LandingPage = () => {
     </Container>
   );
 };
-
 export default LandingPage;
