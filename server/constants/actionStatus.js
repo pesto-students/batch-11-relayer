@@ -1,0 +1,2 @@
+exports.NOT_ALLOWED = 'NOT ALLOWED';
+exports.SUCCESS = 'SUCCESS';
