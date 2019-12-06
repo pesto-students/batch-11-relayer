@@ -7,6 +7,7 @@ import requireAll from 'require-all';
 import pino from 'express-pino-logger';
 import cors from 'cors';
 import logger from './utils/logger';
+import authorize from './thirdparty/routes/authorize';
 
 dotenv.config();
 
@@ -18,10 +19,10 @@ app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/thirdparty/views'));
 requireAll(modelDirPath);
 const routes = requireAll(routeDirPath);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 app.use(cors({ origin: '*' }));
 // eslint-disable-next-line no-restricted-syntax
 for (const route in routes) {
@@ -30,6 +31,9 @@ for (const route in routes) {
     app.use(routeObject.path, routeObject.router);
   }
 }
+// authorize router
+app.use('/', authorize);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
