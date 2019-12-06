@@ -16,7 +16,7 @@ const validateAuthentication = async (req, res, next) => {
       actionStatus.NOT_ALLOWED,
       null,
     );
-    res.send(generatedResponse);
+    res.status(401).send(generatedResponse);
   }
 };
 module.exports = validateAuthentication;

@@ -6,21 +6,17 @@ import request from '../../utils/requestLib';
 import '../../assets/styles/components/_signup.module.scss';
 
 const SignUp = () => {
-  const email = createRef();
-  const pass = createRef();
-
-  const signUp = async (event) => {
+  const signUp = async (event, email, pass) => {
     event.preventDefault();
     const requestObj = prepareRequest('signUp');
-    requestObj.body = { email:'email', password: 'pass' };
+    requestObj.body = { email: email.current.value, password: pass.current.value };
     const response = await request(requestObj);
-    console.log(response);
   };
 
   return (
     <Container>
       <h1 className="mt-5 mb-5"> Sign Up </h1>
-      <SignupForm email={email} pass={pass} signUp={signUp} />
+      <SignupForm signUp={signUp} />
     </Container>
   );
 };

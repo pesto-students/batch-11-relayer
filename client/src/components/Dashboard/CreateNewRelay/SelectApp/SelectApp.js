@@ -15,7 +15,6 @@ const onValueChange = (e) => {
 const navigate = () => {
   const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
         width=500,height=500,left=-100,top=-100`;
-  console.log(defaultApp);
   window.open(`http://localhost:3001/authorize/${defaultApp}`, 'test', params);
 };
 
@@ -36,6 +35,7 @@ const SelectApp = (props) => {
       <Col sm="12" md="4">
         <LabelItem content="Select App 2" />
         <Select name="app2" _id="appSelect2" isRequired="true" options={appNames} />
+        <Button> Authorize </Button>
       </Col>
     </>
   );

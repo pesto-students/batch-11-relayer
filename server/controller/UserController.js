@@ -52,7 +52,14 @@ const signIn = async (req, res) => {
   });
   res.send(generatedResponse);
 };
+const getAuthenticatedUserDetails = async (req, res) => {
+  const userId = req.user;
+  const retrievedUser = await UsersCollection.findOne({ userId }, { password: 0, _id: 0 });
+  const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'User Fetched', retrievedUser);
+  res.send(generatedResponse);
+};
 module.exports = {
   createUser,
   signIn,
+  getAuthenticatedUserDetails,
 };
