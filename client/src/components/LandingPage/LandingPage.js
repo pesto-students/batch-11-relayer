@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
-import '../../assets/styles/components/_landing-page.module.scss';
+import '../../assets/styles/components/_landing-page.css';
 
 const LandingPage = () => {
   return (

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Form, Col, Button } from 'reactstrap';
 import { InputRow } from '../common';
-import '../../assets/styles/components/_signup.module.scss';
 
 const SignupForm = (props) => {
   const { email, pass, signUp } = props;
@@ -12,7 +11,7 @@ const SignupForm = (props) => {
       <InputRow type="email" label="Email" id="email" placeholder="username@example.com" ref={email} />
       <InputRow type="pass" label="Password" id="pass" placeholder="P@ssw0rd" ref={pass} />
       <Col>
-        <Button className="mt-5" color="primary" onClick={signUp}> Sign Up </Button>
+        <Button className="mt-5 mb-1" color="primary" onClick={signUp}> Sign Up </Button>
       </Col>
       <Col>
         Already a member? &nbsp;
