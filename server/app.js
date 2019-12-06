@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
 import pino from 'express-pino-logger';
+import cors from 'cors';
 import logger from './utils/logger';
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 requireAll(modelDirPath);
 const routes = requireAll(routeDirPath);
+app.use(cors({ origin: '*' }));
 // eslint-disable-next-line no-restricted-syntax
 for (const route in routes) {
   if (Object.prototype.hasOwnProperty.call(routes, route)) {
