@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Form, Col, Button } from 'reactstrap';
 import { InputRow } from '../common';
-import './signup.scss';
+import '../../assets/styles/components/_signup.module.scss';
 
 const SignupForm = (props) => {
   const { email, pass, signUp } = props;
