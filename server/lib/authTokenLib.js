@@ -12,11 +12,14 @@ const createAuthToken = (userId) => {
   return jwtToken;
 };
 
-const validateAuthToken = () => {
-
-};
+const verifyAuthToken = (authToken) => new Promise((resolve, reject) => {
+  jwt.verify(authToken, JWT_SECRET, (err, decoded) => {
+    if (err) reject(err);
+    resolve(decoded);
+  });
+});
 
 module.exports = {
   createAuthToken,
-  validateAuthToken,
+  verifyAuthToken,
 };
