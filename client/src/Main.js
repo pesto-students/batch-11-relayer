@@ -2,10 +2,9 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Header } from './components/common';
 import LandingPage from './components/LandingPage';
-import SignUp from './components/Authentication/SignUp';
+import { SignUp, SignIn } from './components/Authentication/UserActions';
 import CreateNewRelay from './components/Dashboard/CreateNewRelay';
 import CreateConfiguration from './components/Dashboard/CreateConfiguation';
-import SignIn from './components/Authentication/SignIn';
 
 const Main = () => (
   <>
