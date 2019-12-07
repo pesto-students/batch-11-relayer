@@ -7,8 +7,7 @@ const UserProvider = (props) => {
   const ref = createRef();
   const refs = [];
   return (
-    <UserContext.Provider value={{ refs, ref }}
-    >
+    <UserContext.Provider value={{ refs, ref }}>
       {children}
     </UserContext.Provider>
   );

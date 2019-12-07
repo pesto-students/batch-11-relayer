@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row } from 'reactstrap';
 import SelectApp from './SelectApp';
 import SelectTrigger from './SelectTrigger';
 import prepareRequest from '../../../utils/requestEPLib';
@@ -29,7 +29,7 @@ class SelectRelay extends React.Component {
           <SelectApp options={appDetails} />
         </Row>
         <Row className="mt-5">
-          <SelectTrigger />
+          <SelectTrigger options={appDetails} />
         </Row>
       </>
     );

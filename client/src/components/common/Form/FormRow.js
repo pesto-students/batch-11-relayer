@@ -12,9 +12,8 @@ const FormRow = (props) => {
   const { refs, ref } = useContext(UserContext);
 
   React.useEffect(() => {
-    console.log(ref.current.value);
     refs.push(ref);
-  }, [ref]);
+  }, [ref, refs]);
 
   return (
     <FormGroup row>
