@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { isReturnStatement } from '@babel/types';
 import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 
@@ -21,6 +22,7 @@ const toggleRelayStatus = async (req, res) => {
   if (retrievedRelay) {
     const generatedResponse = response.generateResponse(true, 200, actionStatus.NOT_FOUND, null);
     res.send(generatedResponse);
+    return;
   }
   const toggledStatus = retrievedRelay.status === 'active' ? 'pause' : 'active';
   retrievedRelay.status = toggledStatus;
@@ -28,4 +30,17 @@ const toggleRelayStatus = async (req, res) => {
   const generatedResponse = response.generateResponse(false, 200, actionStatus.SUCCESS, updatedRelay);
   res.send(generatedResponse);
 };
-module.exports = { getMyRelays, toggleRelayStatus };
+const deleteRelay = async (req, res) => {
+  const { relayId } = req.body;
+  const retrievedRelay = await RelayCollection.findOne({ relayId, isPublished: true });
+  if (retrievedRelay) {
+    const generatedResponse = response.generateResponse(true, 200, actionStatus.NOT_FOUND, null);
+    res.send(generatedResponse);
+    return;
+  }
+  retrievedRelay.isPublished = false;
+  await retrievedRelay.save();
+  const generatedResponse = response.generateResponse(false, 200, actionStatus.SUCCESS, null);
+  res.send(generatedResponse);
+};
+module.exports = { getMyRelays, toggleRelayStatus, deleteRelay };
