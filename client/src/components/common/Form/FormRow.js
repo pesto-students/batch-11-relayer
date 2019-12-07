@@ -1,16 +1,24 @@
-import React, { createRef } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Col, FormGroup, Input, Label,
 } from 'reactstrap';
+import UserContext from '../../../contexts/UserContext';
 
-const InputRow = (props) => {
+const FormRow = (props) => {
   const {
-    type, label, id, placeholder, ref,
+    type, label, id, placeholder,
   } = props;
+  const { refs, ref } = useContext(UserContext);
+
+  React.useEffect(() => {
+    console.log(ref.current.value);
+    refs.push(ref);
+  }, [ref]);
+
   return (
     <FormGroup row>
-      <Label for="email" sm={12} md={2}>
+      <Label for={id} sm={12} md={2}>
         {label}
       </Label>
       <Col sm={12} md={5}>
@@ -20,7 +28,7 @@ const InputRow = (props) => {
   );
 };
 
-InputRow.propTypes = {
+FormRow.propTypes = {
   type: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string,
@@ -28,4 +36,4 @@ InputRow.propTypes = {
   ref: PropTypes.string,
 }.isRequired;
 
-export default InputRow;
+export default FormRow;

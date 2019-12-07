@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import SignUp from './SignUp';
+import { SignUp } from './UserActions';
 
-describe('<SignUp />', () => {
-  it('renders the SignUp component', () => {
+describe('<UserActions />', () => {
+  it('renders the UserActions component', () => {
     const wrapper = shallow(<SignUp />);
     expect(wrapper).toMatchSnapshot();
   });
