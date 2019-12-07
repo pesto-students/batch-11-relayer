@@ -14,6 +14,8 @@ dotenv.config();
 const app = express();
 const modelDirPath = path.join(__dirname, 'models');
 const routeDirPath = path.join(__dirname, 'routes');
+const thirdpartyDirPath = path.join(__dirname, '/thirdparty/routes');
+
 
 app.use(pino());
 app.use(express.json());
@@ -23,6 +25,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
 requireAll(modelDirPath);
 const routes = requireAll(routeDirPath);
+const thirdPartyRoutes = requireAll(thirdpartyDirPath);
 app.use(cors({ origin: '*' }));
 // eslint-disable-next-line no-restricted-syntax
 for (const route in routes) {
