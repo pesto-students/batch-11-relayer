@@ -27,6 +27,9 @@ const slackAuthGrant = (req, res) => {
         }, {
           attributeName: 'team_id',
           attributeValue: response.data.team_id,
+        }, {
+          attributeName: 'team_name',
+          attributeValue: response.data.team_name,
         }],
       };
       AuthorizedApps.create(authorizedApp);
@@ -34,24 +37,37 @@ const slackAuthGrant = (req, res) => {
       res.render('authSuccess');
     })
     .catch(() => {
-      //
+      res.render('authError');
     });
 };
 
 const githubAuthGrant = (req, res) => {
+  const appName = 'GITHUB';
   const options = {
-    url: `https://github.com/login/oauth/access_token?client_id=7e54f4b44fd9428adb07&client_secret=939d32fd521afb2b3628cee92f4e2a8c7c4c9665&code=${req.query.code}`,
+    url: `${constants[`${appName}_AUTH_GRANT_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_CLIENT_SECRET`]}&code=${req.query.code}`,
     method: 'POST',
     headers: { Accept: 'application/json' },
   };
 
   axios(options)
     .then((response) => {
-      // console.log(response.data);
-      res.send(response.data);
+      const authorizedApp = {
+        userId: req.userId,
+        appName,
+        credentials: [{
+          attributeName: 'access_token',
+          attributeValue: response.data.access_token,
+        }, {
+          attributeName: 'token_type',
+          attributeValue: response.data.token_type,
+        }],
+      };
+      AuthorizedApps.create(authorizedApp);
+
+      res.render('authSuccess');
     })
     .catch(() => {
-      //
+      res.render('authError');
     });
 };
 

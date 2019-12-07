@@ -16,4 +16,5 @@ const uriObject = {
 const prepareRequest = (key) => {
   return uriObject[key];
 };
+
 export default prepareRequest;
