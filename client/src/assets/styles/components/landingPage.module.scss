@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  & h1 {
+    font-size: 3em;
+  }
+  & p {
+    font-size: larger;
+    line-height: 35px;
+    width: 70%;
+  }
+  & * {
+    margin: 25px 0;
+  }
+}

@@ -1,20 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Col, FormGroup, Input, Label,
 } from 'reactstrap';
-import UserContext from '../../../contexts/UserContext';
 
 const FormRow = (props) => {
   const {
     type, label, id, placeholder,
   } = props;
-  const { refs, ref } = useContext(UserContext);
-
-  React.useEffect(() => {
-    console.log(ref.current.value);
-    refs.push(ref);
-  }, [ref]);
 
   return (
     <FormGroup row>
@@ -22,7 +15,7 @@ const FormRow = (props) => {
         {label}
       </Label>
       <Col sm={12} md={5}>
-        <Input type={type} name={id} id={id} placeholder={placeholder} innerRef={ref} />
+        <Input type={type} name={id} id={id} placeholder={placeholder} />
       </Col>
     </FormGroup>
   );

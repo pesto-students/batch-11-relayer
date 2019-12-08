@@ -1,21 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Button } from 'reactstrap';
-import UserContext from '../../../contexts/UserContext';
 
 const FormButton = (props) => {
   const {
-    className, color, onClick, text,
+    className, color, text,
   } = props;
-  const { refs } = useContext(UserContext);
-  console.log(refs);
   return (
     <Col>
-      <Button className={className} color={color} onClick={(event) => onClick(event, ...refs)}>
+      <Button className={className} color={color}>
         {text}
       </Button>
     </Col>
   );
 };
+
+FormButton.propTypes = {
+  className: PropTypes.string,
+  color: PropTypes.string,
+  text: PropTypes.string,
+}.isRequired;
 
 export default FormButton;

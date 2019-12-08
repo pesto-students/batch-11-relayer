@@ -6,32 +6,39 @@ import {
 
 const Form = ({ action, formFields }) => {
   const refs = [];
-  const ref = createRef();
-  const RenderFields = () => formFields.map((field) => {
+  const onSubmit = (event) => {
+    event.preventDefault();
+    formFields[formFields.length - 1].onClick(event, ...refs);
+  };
+
+  const RenderFields = () => formFields.map((field, idx) => {
     const {
-      type, label, id, placeholder, color, onClick,
+      type, label, id, placeholder: filler, color, className,
     } = field;
+    const ref = createRef();
+    const key = idx.toString();
+
     if (field.inputType === 'input') {
       refs.push(ref);
       return (
-        <FormGroup row>
-          <Label for={id} sm={12} md={2}>
+        <FormGroup row key={key}>
+          <Label htmlFor={id} sm={12} md={2}>
             {label}
           </Label>
           <Col sm={12} md={5}>
-            <Input type={type} name={id} id={id} placeholder={placeholder} innerRef={ref} />
+            <Input type={type} name={id} id={id} placeholder={filler} innerRef={ref} required />
           </Col>
         </FormGroup>
       );
     }
     return (
-      <Button className="mt-5 mb-1" color={color} onClick={(event) => onClick(event, ...refs)}>
+      <Button key={key} className={className} color={color}>
         {action}
       </Button>
     );
   });
   return (
-    <ReactstrapForm>
+    <ReactstrapForm onSubmit={onSubmit}>
       <RenderFields />
     </ReactstrapForm>
   );

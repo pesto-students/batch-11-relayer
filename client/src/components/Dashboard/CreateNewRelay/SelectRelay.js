@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row } from 'reactstrap';
 import SelectApp from './SelectApp';
 import SelectTrigger from './SelectTrigger';
 import prepareRequest from '../../../utils/requestEPLib';

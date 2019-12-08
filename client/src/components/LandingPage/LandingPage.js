@@ -1,11 +1,12 @@
+/* eslint-disable no-tabs */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
-// import '../../assets/styles/components/_landing-page.css';
+import styles from '../../assets/styles/components/landingPage.module.scss';
 
 const LandingPage = () => {
   return (
-    <Container className="container mt-5">
+    <Container className={`${styles.container} mt-5`}>
       <h1> Relayer </h1>
       <p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
