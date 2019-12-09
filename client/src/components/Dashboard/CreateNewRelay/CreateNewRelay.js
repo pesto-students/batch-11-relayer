@@ -2,14 +2,14 @@ import React from 'react';
 import {
   Container, Form,
 } from 'reactstrap';
-import { Header } from '../../common';
 import RelaySelection from './RelaySelection';
+import { Heading } from '../../common';
 
 const CreateNewRelay = () => {
   return (
     <>
-      <Header />
       <Container>
+        <Heading styling="mt-5" title="Create New Relay" />
         <Form>
           <RelaySelection />
         </Form>
