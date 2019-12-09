@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+var githubApp = require('../thirdparty/controllers/githubController')
+const { Probot } = require('probot')
+
 
 /**
  * Get port from environment and store in Express.
@@ -87,4 +90,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  //Probot.run(app);
 }

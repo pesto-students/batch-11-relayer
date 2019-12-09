@@ -7,7 +7,9 @@ import SlackController from '../controllers/slackController';
 const router = Router();
 
 router.get('/authorize/:appName', AuthController.renderAuthRequestPage);
-
+router.get('/authorizeapp/github', (req, res) => {
+  res.redirect('https://github.com/apps/relayer-test/installations/new?state=123456');
+});
 router.get('/slack/events', AuthController.slackAuthGrant);
 
 router.get('/github/events', AuthController.githubAuthGrant);

@@ -9,6 +9,7 @@ import cors from 'cors';
 import logger from './utils/logger';
 import authorize from './thirdparty/routes/authorize';
 
+
 dotenv.config();
 
 const app = express();
@@ -64,5 +65,4 @@ mongoose.connection.on('error', (err) => {
 mongoose.connection.on('connected', () => {
   logger.info('Connected To DB');
 });
-
 module.exports = app;
