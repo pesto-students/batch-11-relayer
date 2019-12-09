@@ -3,11 +3,15 @@ import AuthorizedApps from '../../models/AuthorizedApps';
 import constants from '../constants/thirdPartyConstants';
 import tokenLib from '../../lib/authTokenLib';
 
-const renderAuthRequestPage = (req, res) => {
+const renderAuthRequestPage = async (req, res) => {
   const appName = req.params.appName.toUpperCase();
+  let fetchedApp = await AuthorizedApps.findOne({ isPublished: true, userId: req.query.userId, appName });
+  if (!fetchedApp) {
+    fetchedApp = await AuthorizedApps.create({ userId: req.query.userId, appName });
+  }
   switch (appName) {
     case 'GITHUB': {
-      const identificationToken = tokenLib.createGenericAuthToken({ userId: req.query.userId });
+      const identificationToken = tokenLib.createGenericAuthToken({ authAppId: fetchedApp.authAppId });
       res.redirect(`https://github.com/apps/relayer-test/installations/new?state=${identificationToken}`);
       break;
     }
