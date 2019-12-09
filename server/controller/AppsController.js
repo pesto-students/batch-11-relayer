@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import responseLib from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 
-const AppsCollection = mongoose.model('Apps');
+// const AppsCollection = mongoose.model('Apps');
 
 const createApp = async (req, res) => {
   console.log(req.body);
