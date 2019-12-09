@@ -4,4 +4,5 @@ const RelayHistory = new Schema({
   relayId: { type: String, unique: true },
   status: { type: String },
 }, { timestamps: true });
-mongoose.model('RelayHistory', RelayHistory);
+
+export default mongoose.model('RelayHistory', RelayHistory);

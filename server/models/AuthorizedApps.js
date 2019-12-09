@@ -5,7 +5,7 @@ const AttributeObject = new Schema(
   {
     attributeName: String,
     attributeValue: String,
-  }, { _id: false, timestamps: true },
+  }, { _id: false },
 );
 
 const AuthorizedApps = new Schema({

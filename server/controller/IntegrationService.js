@@ -26,7 +26,7 @@ const InitializeIntegrationService = async () => {
 };
 
 const RefreshRunningRelays = (relayWhoseStateChanged) => {
-  console.log(relayWhoseStateChanged);
+  // console.log(relayWhoseStateChanged);
   for (const participantApp of relayWhoseStateChanged.participantApps) {
     const { appName, event } = participantApp;
     const eventData = IntegrationConfig[appName].Events

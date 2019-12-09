@@ -1,10 +1,10 @@
 import RelayController from './RelayController';
-import SlackActionSink from './SlackActions';
+import SlackTriggerDispatcher from '../thirdparty/controllers/SlackTriggerDispatcher';
 
 const slackWebHookListener = async (event, authedUsers) => {
   const slackTriggeredRelays = await RelayController.getRunningRelaysWithTriggerApp('Slack');
 
-  setImmediate(SlackActionSink, slackTriggeredRelays, event, authedUsers);
+  setImmediate(SlackTriggerDispatcher, slackTriggeredRelays, event, authedUsers);
 };
 
 const gitWebHookListener = (event) => {
