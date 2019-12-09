@@ -3,7 +3,7 @@ import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm';
 import prepareRequest from '../../utils/requestEPLib';
-// import request from '../../utils/requestLib';
+import request from '../../utils/requestLib';
 import '../../assets/styles/components/_signup.module.scss';
 
 const UserAction = (props) => {
@@ -13,7 +13,7 @@ const UserAction = (props) => {
     const actionArray = action.split(' ');
     const requestObj = prepareRequest(actionArray[0].toLowerCase() + actionArray[1]);
     requestObj.body = { email: email.current.value, password: pass.current.value };
-    // const response = await request(requestObj);
+    const response = await request(requestObj);
   };
 
   return (
