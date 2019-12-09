@@ -29,7 +29,7 @@ class SelectRelay extends React.Component {
           <SelectApp options={appDetails} />
         </Row>
         <Row className="mt-5">
-          <SelectTrigger />
+          <SelectTrigger options={appDetails} />
         </Row>
       </>
     );

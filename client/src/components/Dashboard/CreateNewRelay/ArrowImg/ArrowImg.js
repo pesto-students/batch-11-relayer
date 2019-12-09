@@ -1,13 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col } from 'reactstrap';
 import Arrow from './Arrow';
 
-const ArrowImg = () => {
+const ArrowImg = (props) => {
+  const { styling } = props;
   return (
-    <Col className="align-center mt-4 mb-2">
+    <Col className={styling}>
       <Arrow />
     </Col>
   );
+};
+
+ArrowImg.defaultProps = {
+  styling: '',
+};
+
+ArrowImg.propTypes = {
+  styling: PropTypes.string,
 };
 
 export default ArrowImg;

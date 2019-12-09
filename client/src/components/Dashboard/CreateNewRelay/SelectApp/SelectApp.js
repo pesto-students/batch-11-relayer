@@ -30,8 +30,9 @@ const navigateApp2 = () => {
 const SelectApp = (props) => {
   const { options } = props;
   const appNames = options.map((option) => option.name);
+  const appNamesCopy = Array.from(appNames).reverse();
   [defaultApp1] = appNames;
-  [defaultApp2] = appNames;
+  [defaultApp2] = appNamesCopy;
 
   return (
     <>
@@ -40,10 +41,10 @@ const SelectApp = (props) => {
         <Select name="app1" _id="appSelect1" isRequired="true" options={appNames} handleChange={onValueChange1} />
         <Button className="mt-3" outline color="primary" onClick={navigateApp1}>Authorize</Button>
       </Col>
-      <ArrowImg />
+      <ArrowImg styling="align-center mb-4" />
       <Col sm="12" md="4">
         <LabelItem content="Select App 2" />
-        <Select name="app2" _id="appSelect2" isRequired="true" options={appNames} handleChange={onValueChange2} />
+        <Select name="app2" _id="appSelect2" isRequired="true" options={appNamesCopy} handleChange={onValueChange2} />
         <Button className="mt-3" outline color="primary" onClick={navigateApp2}>Authorize</Button>
       </Col>
     </>
