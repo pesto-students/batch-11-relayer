@@ -5,8 +5,8 @@ const router = Router();
 
 router.get('/authorize/:appName', AuthController.renderAuthRequestPage);
 
-router.get('/slack/events', AuthController.slackAuthGrant);
+router.get('/auth/slack/callback', AuthController.slackAuthGrant);
 
-router.get('/github/events', AuthController.githubAuthGrant);
+router.get('/auth/github/callback', AuthController.githubAuthGrant);
 
 export default router;

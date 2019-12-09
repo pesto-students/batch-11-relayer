@@ -24,5 +24,6 @@
         "react"
     ],
     "rules": {
+        "no-restricted-syntax": 0
     }
 }

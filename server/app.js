@@ -8,6 +8,8 @@ import pino from 'express-pino-logger';
 import cors from 'cors';
 import logger from './utils/logger';
 import authorize from './thirdparty/routes/authorize';
+import slackRouter from './thirdparty/routes/slackRouter';
+import IntegrationService from './controller/IntegrationService';
 
 dotenv.config();
 
@@ -31,8 +33,10 @@ for (const route in routes) {
     app.use(routeObject.path, routeObject.router);
   }
 }
+
 // authorize router
 app.use('/', authorize);
+app.use(slackRouter.path, slackRouter.router);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -60,6 +64,7 @@ mongoose.connection.on('error', (err) => {
 
 mongoose.connection.on('connected', () => {
   logger.info('Connected To DB');
+  IntegrationService();
 });
 
 module.exports = app;

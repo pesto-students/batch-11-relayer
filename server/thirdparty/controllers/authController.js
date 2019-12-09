@@ -1,10 +1,11 @@
 import axios from 'axios';
-import AuthorizedApps from '../models/authorizedApps';
+import AuthorizedApps from '../../models/AuthorizedApps';
 import constants from '../constants/thirdPartyConstants';
 
 const renderAuthRequestPage = (req, res) => {
   const appName = req.params.appName.toUpperCase();
-  const authorizationRequestURL = `${constants[`${appName}_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_SCOPE`]}&${constants[`${appName}_REDIRECT_URL`]}`;
+  const { userId } = req;
+  const authorizationRequestURL = `${constants[`${appName}_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_SCOPE`]}&${constants[`${appName}_REDIRECT_URL`]}&state=${userId}`;
   res.render('OAuthWindow', {
     authorizationRequestURL,
   });
