@@ -37,6 +37,12 @@ const IntegrationConfig = {
       },
     }],
   },
+  GitHub: {
+    icon_path: '',
+    Events: [
+
+    ],
+  },
 };
 
 export default IntegrationConfig;
