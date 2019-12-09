@@ -9,6 +9,7 @@ import cors from 'cors';
 import logger from './utils/logger';
 import authorize from './thirdparty/routes/authorize';
 import slackRouter from './thirdparty/routes/slackRouter';
+import githubRouter from './thirdparty/routes/githubRouter';
 import IntegrationService from './controller/IntegrationService';
 
 dotenv.config();
@@ -37,6 +38,7 @@ for (const route in routes) {
 // authorize router
 app.use('/', authorize);
 app.use(slackRouter.path, slackRouter.router);
+app.use(githubRouter.path, githubRouter.router);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
