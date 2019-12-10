@@ -1,10 +1,17 @@
 import axios from 'axios';
 import AuthorizedApps from '../../models/AuthorizedApps';
+import Users from '../../models/Users';
+
 import constants from '../constants/thirdPartyConstants';
 import tokenLib from '../../lib/authTokenLib';
 
 const renderAuthRequestPage = async (req, res) => {
   const appName = req.params.appName.toUpperCase();
+  const userDetails = await Users.findOne({ userId: req.query.userId }).lean();
+  if (!userDetails) {
+    res.send({ status: 'Invalid user id' });
+    return;
+  }
   let fetchedApp = await AuthorizedApps.findOne({ isPublished: true, userId: req.query.userId, appName });
   if (!fetchedApp) {
     fetchedApp = await AuthorizedApps.create({ userId: req.query.userId, appName });
