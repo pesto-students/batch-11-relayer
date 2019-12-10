@@ -1,13 +1,15 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import Filters from './Filters';
-import RelayHistoryList from './RelayHistoryList';
+import { CardWithImage } from '../../common';
 
 const TaskHistory = () => {
   return (
     <Container>
       <Filters />
-      <RelayHistoryList />
+      <Row className="mt-5">
+        <CardWithImage small="12" medium="10" large="10" cardInfo={{ cardTitle: 'Relay Name', cardBody: 'Relay Info' }} />
+      </Row>
     </Container>
   );
 };

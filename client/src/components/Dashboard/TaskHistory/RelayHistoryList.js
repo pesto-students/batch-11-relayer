@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { InfoCard } from '../../common';
+import InfoCard from '../../common/InfoCard';
 
 const RelayHistoryList = () => {
   return (

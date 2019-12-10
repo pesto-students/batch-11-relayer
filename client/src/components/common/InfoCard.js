@@ -2,17 +2,21 @@ import React from 'react';
 import {
   Card, CardBody, CardText, CardTitle,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
-const InfoCard = () => {
+const InfoCard = ({ cardInfo }) => {
   return (
     <Card>
       <CardBody>
-        <CardTitle>Relay Name</CardTitle>
-        <CardText>Relay Info</CardText>
-        <CardText>Relay Info</CardText>
+        <CardTitle>{cardInfo.cardTitle}</CardTitle>
+        <CardText>{cardInfo.cardBody}</CardText>
       </CardBody>
     </Card>
   );
+};
+
+InfoCard.propTypes = {
+  cardInfo: PropTypes.shape({ cardTitle: PropTypes.string, cardBody: PropTypes.string }).isRequired,
 };
 
 export default InfoCard;
