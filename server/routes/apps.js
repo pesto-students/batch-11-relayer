@@ -1,13 +1,15 @@
 import express from 'express';
-// import appsController from '../controller/AppsController';
+import AppsController from '../controller/AppsController';
 
 const router = express.Router();
 
 /* GET home page. */
 
-// router.get('/get/all', appsController.getAllApp);
-// router.post('/create', appsController.createApp);
+router.get('/apps', AppsController.getApps);
+router.get('/apps/:appName', AppsController.getEventDetails);
+router.get('/apps/:appName/authorizedAccounts', AppsController.getAuthorizedAccounts);
+
 module.exports = {
-  path: '/app',
+  path: '/api/v1',
   router,
 };

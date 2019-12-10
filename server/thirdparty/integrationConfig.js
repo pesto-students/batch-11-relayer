@@ -1,6 +1,6 @@
 const IntegrationConfig = {
   Slack: {
-    icon_path: '',
+    icon_path: 'slackIcon.png',
     Events: [{
       EventName: 'New Message Posted to Channel',
       EventType: 'Trigger',

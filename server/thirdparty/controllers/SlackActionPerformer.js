@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import IntegrationConfig from '../integrationConfig';
@@ -19,13 +20,15 @@ const getCredentialsFromAuthedApps = async (_id) => AuthorizedApps.findOne(_id);
 const getInputsFromDB = async (_id) => Inputs.findOne(_id).select({ _id: 0 });
 
 const SlackActionPerformer = async (relay, action, triggerEvent) => {
+  console.log(triggerEvent);
   for (const slackEvent of IntegrationConfig.Slack.Events) {
     if (slackEvent.EventName === action.event) {
       const authDetails = await getCredentialsFromAuthedApps(action.authentication);
       const token = getCredentialAttributeFromArray(authDetails, 'access_token')[1];
       const userInputs = await getInputsFromDB(action.inputs);
-      console.log(userInputs);
       userInputs.token = token;
+
+      // validate event in config and triggerevent
 
       const { url, method } = slackEvent.ApiToInvoke;
       const axiosOptions = {
@@ -36,9 +39,7 @@ const SlackActionPerformer = async (relay, action, triggerEvent) => {
         // inputs should be filled from triggerEvent
       };
 
-      console.log(axiosOptions);
       const relayHistory = {};
-      // eslint-disable-next-line no-underscore-dangle
       relayHistory.relayId = relay._id;
 
       axios(axiosOptions)

@@ -9,11 +9,11 @@ const AttributeObject = new Schema(
 );
 
 const AuthorizedApps = new Schema({
-  userId: { type: String }, // required:true
+  userId: { type: String, required: true },
   authAppId: { type: String, default: shortid.generate, unique: true },
   appName: { type: String, required: true },
+  email: { type: String }, //  required: true
   credentials: [AttributeObject],
-  version: { type: String, default: '' },
 });
 
 export default mongoose.model('AuthorizedApps', AuthorizedApps);

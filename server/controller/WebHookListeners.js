@@ -8,7 +8,7 @@ const slackWebHookListener = async (event, authedUsers) => {
 };
 
 const gitWebHookListener = (event) => {
-  console.log(event);
+  // console.log(event);
 };
 
 const exports = {

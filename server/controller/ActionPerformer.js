@@ -6,7 +6,6 @@ const ActionPerformer = async (relay, triggerEvent) => {
   for (const action of actionsToPerform) {
     if (action.eventType === 'Action') {
       const correspondingActionPerformer = `${action.appName.toLowerCase()}ActionPerformer`;
-      console.log(correspondingActionPerformer);
       eventEmitter.emit(correspondingActionPerformer, relay, action, triggerEvent);
     }
   }
