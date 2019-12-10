@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const RelayHistory = new Schema({
-  relayId: { type: String, unique: true },
+  relayId: { type: String },
   status: { type: String },
 }, { timestamps: true });
 

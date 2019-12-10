@@ -2,6 +2,7 @@ import eventEmitter from '../lib/eventsLib';
 import RelayController from './RelayController';
 import IntegrationConfig from '../thirdparty/integrationConfig';
 import WebHookListeners from './WebHookListeners';
+import ActionPerformer from './ActionPerformer';
 
 const installedListeners = [];
 
@@ -19,6 +20,13 @@ const InitializeIntegrationService = async () => {
         if (installedListeners.indexOf(correspondingListener) === -1) {
           eventEmitter.on(eventEmitterName, WebHookListeners[correspondingListener]);
           installedListeners.push(correspondingListener);
+        }
+      }
+      if (eventData.EventType === 'Action') {
+        const ActionPerformerName = `${appName.toLowerCase()}ActionPerformer`;
+        if (installedListeners.indexOf(ActionPerformerName) === -1) {
+          eventEmitter.on(ActionPerformerName, ActionPerformer[ActionPerformerName]);
+          installedListeners.push(ActionPerformerName);
         }
       }
     }

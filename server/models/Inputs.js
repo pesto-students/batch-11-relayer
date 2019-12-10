@@ -8,7 +8,6 @@ const AttributeObject = new Schema(
 );
 
 const Inputs = new Schema({
-  eventId: { type: String, required: true },
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   userInputs: [AttributeObject],
 });

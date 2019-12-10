@@ -16,24 +16,27 @@ const getCredentialAttributeFromArray = (authDetails, attributeName) => {
 
 const getCredentialsFromAuthedApps = async (_id) => AuthorizedApps.findOne(_id);
 
-const getInputsFromDB = async (_id) => Inputs.findOne(_id);
+const getInputsFromDB = async (_id) => Inputs.findOne(_id).select({ _id: 0 });
 
 const SlackActionPerformer = async (relay, action, triggerEvent) => {
   for (const slackEvent of IntegrationConfig.Slack.Events) {
     if (slackEvent.EventName === action.event) {
       const authDetails = await getCredentialsFromAuthedApps(action.authentication);
-      const token = getCredentialAttributeFromArray(authDetails, 'access_token');
+      const token = getCredentialAttributeFromArray(authDetails, 'access_token')[1];
       const userInputs = await getInputsFromDB(action.inputs);
+      console.log(userInputs);
       userInputs.token = token;
 
-      const { url, method } = action.ApiToInvoke;
+      const { url, method } = slackEvent.ApiToInvoke;
       const axiosOptions = {
         url,
         method,
-        data: userInputs || triggerEvent, // if user gives placeholder,
+        headers: { Authorization: `Bearer ${token}` },
+        data: userInputs, // if user gives placeholder,
         // inputs should be filled from triggerEvent
       };
 
+      console.log(axiosOptions);
       const relayHistory = {};
       // eslint-disable-next-line no-underscore-dangle
       relayHistory.relayId = relay._id;
@@ -51,9 +54,4 @@ const SlackActionPerformer = async (relay, action, triggerEvent) => {
   }
 };
 
-const exports = {
-  performer: SlackActionPerformer,
-  appName: 'Slack',
-};
-
-export default exports;
+export default SlackActionPerformer;
