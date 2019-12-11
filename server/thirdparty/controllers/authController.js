@@ -7,14 +7,15 @@ import tokenLib from '../../lib/authTokenLib';
 
 const renderAuthRequestPage = async (req, res) => {
   const appName = req.params.appName.toUpperCase();
-  const userDetails = await Users.findOne({ userId: req.query.userId }).lean();
+  const { userId } = await tokenLib.verifyAuthToken(req.query.auth);
+  const userDetails = await Users.findOne({ userId }).lean();
   if (!userDetails) {
     res.send({ status: 'Invalid user id' });
     return;
   }
-  let fetchedApp = await AuthorizedApps.findOne({ isPublished: true, userId: req.query.userId, appName });
+  let fetchedApp = await AuthorizedApps.findOne({ isPublished: true, userId, appName });
   if (!fetchedApp) {
-    fetchedApp = await AuthorizedApps.create({ userId: req.query.userId, appName });
+    fetchedApp = await AuthorizedApps.create({ userId, appName });
   }
   switch (appName) {
     case 'GITHUB': {
