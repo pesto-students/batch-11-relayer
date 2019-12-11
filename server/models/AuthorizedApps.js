@@ -6,7 +6,8 @@ const AuthorizedApps = new Schema({
   authAppId: { type: String, default: shortid.generate, unique: true },
   appName: { type: String, required: true },
   email: { type: String }, //  required: true
-  credentials: { type: Map, of: String },
+  auth_token: { type: String },
+  credentials: { type: Map },
 });
 
 export default mongoose.model('AuthorizedApps', AuthorizedApps);

@@ -99,10 +99,52 @@ const getSingleRelay = async (req, res) => {
   res.send(generatedResponse);
 };
 
+// validate entries, or get participantApp.authentication wholly instead of id
+const createNewRelay = async (req, res) => {
+  const relayDetails = req.body;
+  // relayDetails.userId = req.userId;
+  const createdRelay = await RelayCollection.create(relayDetails);
+
+  const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Created relay', createdRelay);
+  res.send(generatedResponse);
+};
+
+const updateExistingRelay = async (req, res) => {
+  const relayIDToBeEdited = {};
+  relayIDToBeEdited._id = req.params.relayId;
+  // relayIDToBeEdited.userId = req.userId;
+  const relayDetailsToBeEdited = req.body;
+
+  const editedRelayDetails = await RelayCollection.findOneAndUpdate(relayIDToBeEdited,
+    relayDetailsToBeEdited);
+
+  const generatedResponse = response.generateResponse(false,
+    actionStatus.SUCCESS, 'Edited relay', editedRelayDetails);
+
+  res.send(generatedResponse);
+};
+
+const moveRelayToTrash = async (req, res) => {
+  const relayIDToBeDeleted = {};
+  relayIDToBeDeleted._id = req.params.relayId;
+  // relayIDToBeDeleted.userId = req.userId;
+
+  const deletedRelayDetails = await RelayCollection.findOneAndUpdate(relayIDToBeDeleted,
+    { isDeleted: false });
+
+  const generatedResponse = response.generateResponse(false,
+    actionStatus.SUCCESS, 'Deleted relay', deletedRelayDetails);
+
+  res.send(generatedResponse);
+};
+
 
 module.exports = {
   getRelays,
   getSingleRelay,
   getRunningRelays,
   getRunningRelaysWithTriggerApp,
+  createNewRelay,
+  updateExistingRelay,
+  moveRelayToTrash,
 };

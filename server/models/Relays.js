@@ -7,7 +7,7 @@ const RelayParticipantApp = new Schema(
     event: { type: String, required: true },
     eventType: { type: String, required: true },
     inputs: { type: Map },
-    authentication: { type: Schema.Types.ObjectId, ref: 'AuthenticatedApps' },
+    authorizedApp: { type: Schema.Types.ObjectId, ref: 'AuthorizedApps' },
   },
 );
 
@@ -19,7 +19,7 @@ const Relays = new Schema(
     isRunning: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
     isPublished: { type: Boolean, default: false },
-    userId: { type: String, required: true },
+    userId: { type: String }, // required: true
   },
   { timestamps: true },
 );
