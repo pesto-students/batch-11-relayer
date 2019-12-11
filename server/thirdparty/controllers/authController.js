@@ -1,14 +1,36 @@
 import axios from 'axios';
 import AuthorizedApps from '../../models/AuthorizedApps';
-import constants from '../constants/thirdPartyConstants';
+import Users from '../../models/Users';
 
-const renderAuthRequestPage = (req, res) => {
+import constants from '../constants/thirdPartyConstants';
+import tokenLib from '../../lib/authTokenLib';
+
+const renderAuthRequestPage = async (req, res) => {
   const appName = req.params.appName.toUpperCase();
-  const { userId } = req;
-  const authorizationRequestURL = `${constants[`${appName}_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_SCOPE`]}&${constants[`${appName}_REDIRECT_URL`]}&state=${userId}`;
-  res.render('OAuthWindow', {
-    authorizationRequestURL,
-  });
+  const { userId } = await tokenLib.verifyAuthToken(req.query.auth);
+  const userDetails = await Users.findOne({ userId }).lean();
+  if (!userDetails) {
+    res.send({ status: 'Invalid user id' });
+    return;
+  }
+  let fetchedApp = await AuthorizedApps.findOne({ isPublished: true, userId, appName });
+  if (!fetchedApp) {
+    fetchedApp = await AuthorizedApps.create({ userId, appName });
+  }
+  switch (appName) {
+    case 'GITHUB': {
+      const identificationToken = tokenLib.createGenericAuthToken({ authAppId: fetchedApp.authAppId });
+      res.redirect(`https://github.com/apps/relayer-test/installations/new?state=${identificationToken}`);
+      break;
+    }
+    default: {
+      const { userId } = req;
+      const authorizationRequestURL = `${constants[`${appName}_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_SCOPE`]}&${constants[`${appName}_REDIRECT_URL`]}&state=${userId}`;
+      res.render('OAuthWindow', {
+        authorizationRequestURL,
+      });
+    }
+  }
 };
 
 const slackAuthGrant = (req, res) => {
@@ -45,7 +67,7 @@ const slackAuthGrant = (req, res) => {
 const githubAuthGrant = (req, res) => {
   const appName = 'GITHUB';
   const options = {
-    url: `${constants[`${appName}_AUTH_GRANT_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_CLIENT_SECRET`]}&code=${req.query.code}`,
+    url: 'https://github.com/apps/relayer-test/installations/new',
     method: 'POST',
     headers: { Accept: 'application/json' },
   };

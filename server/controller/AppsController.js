@@ -14,6 +14,7 @@ const getApps = (req, res) => {
     }
     appsAndEvents.push(singleAppDetails);
   }
+// const AppsCollection = mongoose.model('Apps');
 
   const generatedResponse = responseLib.generateResponse(false, actionStatus.SUCCESS,
     'Apps and Events', appsAndEvents);
