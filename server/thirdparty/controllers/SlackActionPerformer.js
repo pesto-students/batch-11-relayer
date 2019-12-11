@@ -4,7 +4,6 @@ import axios from 'axios';
 import IntegrationConfig from '../integrationConfig';
 import AuthorizedApps from '../../models/AuthorizedApps';
 import RelayHistory from '../../models/RelayHistory';
-import Inputs from '../../models/Inputs';
 
 const getCredentialAttributeFromArray = (authDetails, attributeName) => {
   for (const attributeObject of authDetails.credentials) {

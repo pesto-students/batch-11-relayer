@@ -6,10 +6,9 @@ const RelayParticipantApp = new Schema(
     appName: { type: String },
     event: { type: String, required: true },
     eventType: { type: String, required: true },
-    inputs: { type: Schema.Types.ObjectId, ref: 'Inputs' },
+    inputs: { type: Map },
     authentication: { type: Schema.Types.ObjectId, ref: 'AuthenticatedApps' },
   },
-  { timestamps: true },
 );
 
 const Relays = new Schema(

@@ -1,7 +1,10 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-underscore-dangle */
 
 import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 import RelayCollection from '../models/Relays';
+import AuthorizedApps from '../models/AuthorizedApps';
 
 const getCriteria = (criteria) => {
   const filter = {};
@@ -44,14 +47,62 @@ const getRunningRelaysWithTriggerApp = async (appName) => {
 const getRelays = async (req, res) => {
   const filter = getCriteria(req.query);
   // filter.userId = req.userId;
-  const relays = await relayQuery(filter);
+  const relays = await relayQuery(filter, {
+    relayName: 1,
+    isRunning: 1,
+    isDeleted: 1,
+    isPublished: 1,
+    relayId: 1,
+    'participantApps.appName': 1,
+    'participantApps.event': 1,
+    'participantApps.eventType': 1,
+  });
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'List of relays', relays);
+  res.send(generatedResponse);
+};
+
+const fetchInputsAndAuth = async (app) => {
+  const inputsAndAuth = {};
+  if (app.inputs) {
+    inputsAndAuth.inputs = await InputsCollection.findOne(app.inputs, { _id: 0 });
+  }
+  if (app.authentication) {
+    inputsAndAuth.authentication = await AuthorizedApps.findOne(app.authentication, { _id: 0 });
+  }
+  return inputsAndAuth;
+};
+
+const getSingleRelay = async (req, res) => {
+  const filter = {};
+  filter._id = req.params.relayId; // _id or shortid
+  // filter.userId = req.userId;
+  const singleRelay = await RelayCollection.findOne(filter, {
+    relayName: 1,
+    isRunning: 1,
+    isDeleted: 1,
+    isPublished: 1,
+    participantApps: 1,
+  });
+
+  for (const [index, app] of Object.entries(singleRelay.participantApps)) {
+    const inputsAndAuth = await fetchInputsAndAuth(app);
+    const { appName, event, eventType } = app;
+    singleRelay.participantApps[index] = {
+      appName,
+      event,
+      eventType,
+      ...inputsAndAuth,
+    };
+  }
+
+  const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Relay details', singleRelay);
   res.send(generatedResponse);
 };
 
 
 module.exports = {
   getRelays,
+  getSingleRelay,
   getRunningRelays,
   getRunningRelaysWithTriggerApp,
 };
