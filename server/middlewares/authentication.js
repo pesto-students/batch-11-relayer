@@ -19,4 +19,5 @@ const validateAuthentication = async (req, res, next) => {
     res.status(401).send(generatedResponse);
   }
 };
+
 module.exports = validateAuthentication;

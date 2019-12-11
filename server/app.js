@@ -10,6 +10,7 @@ import logger from './utils/logger';
 import authorize from './thirdparty/routes/authorize';
 import slackRouter from './thirdparty/routes/slackRouter';
 import IntegrationService from './controller/IntegrationService';
+import AuthenticationMiddleware from './middlewares/authentication';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicFolder));
+// app.use('/api/v1', AuthenticationMiddleware);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
 requireAll(modelDirPath);

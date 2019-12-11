@@ -20,7 +20,6 @@ const getCredentialsFromAuthedApps = async (_id) => AuthorizedApps.findOne(_id);
 const getInputsFromDB = async (_id) => Inputs.findOne(_id).select({ _id: 0 });
 
 const SlackActionPerformer = async (relay, action, triggerEvent) => {
-  console.log(triggerEvent);
   for (const slackEvent of IntegrationConfig.Slack.Events) {
     if (slackEvent.EventName === action.event) {
       const authDetails = await getCredentialsFromAuthedApps(action.authentication);
