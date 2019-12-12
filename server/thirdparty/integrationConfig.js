@@ -46,7 +46,7 @@ const IntegrationConfig = {
           url: 'https://slack.com/api/chat.postMessage',
           method: 'POST',
         },
-      }
+      },
     }],
   },
 };
