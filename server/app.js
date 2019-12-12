@@ -11,6 +11,7 @@ import authorize from './thirdparty/routes/authorize';
 import slackRouter from './thirdparty/routes/slackRouter';
 import IntegrationService from './controller/IntegrationService';
 import AuthenticationMiddleware from './middlewares/authentication';
+import dataFetcher from './thirdparty/routes/DataFetcher';
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicFolder));
-// app.use('/api/v1', AuthenticationMiddleware);
+app.use('/api/v1', AuthenticationMiddleware);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
 requireAll(modelDirPath);
@@ -40,6 +41,7 @@ for (const route in routes) {
 // authorize router
 app.use('/', authorize);
 app.use(slackRouter.path, slackRouter.router);
+app.use('/api/v1', dataFetcher);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

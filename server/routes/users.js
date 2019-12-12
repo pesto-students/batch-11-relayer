@@ -12,6 +12,6 @@ router.post('/signin', userController.signIn);
 router.post('/authenticate', userController.getAuthenticatedUserDetails);
 
 module.exports = {
-  path: '/user',
+  path: '/api/v1/user',
   router,
 };

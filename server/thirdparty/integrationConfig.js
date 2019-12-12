@@ -9,7 +9,13 @@ const IntegrationConfig = {
         text: '%STRING%',
         user: '%STRING%',
         team: '%STRING%',
-        channel: '%STRING%',
+        channel: {
+          apiToInvoke: 'https://slack.com/api/conversations.list',
+          method: 'GET',
+          urlParams: {
+            types: 'public_channel,private_channel',
+          },
+        },
         channel_type: 'channel',
       },
     }, {
@@ -28,13 +34,19 @@ const IntegrationConfig = {
       EventType: 'Action',
       InputsWeNeed: {
         token: '%AUTH_TOKEN%',
-        channel: '%STRING%',
+        channel: {
+          apiToInvoke: 'https://slack.com/api/conversations.list',
+          method: 'GET',
+          urlParams: {
+            types: 'public_channel,private_channel',
+          },
+        },
         text: '%STRING%',
-      },
-      ApiToInvoke: {
-        url: 'https://slack.com/api/chat.postMessage',
-        method: 'POST',
-      },
+        ApiToInvoke: {
+          url: 'https://slack.com/api/chat.postMessage',
+          method: 'POST',
+        },
+      }
     }],
   },
 };

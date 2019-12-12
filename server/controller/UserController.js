@@ -26,9 +26,10 @@ const createUser = async (req, res) => {
     return;
   }
   const userObject = await createUserObject(email, password);
-  const { userId } = UsersCollection.create(userObject);
+  const { userId } = await UsersCollection.create(userObject);
   const authToken = createAuthToken(userId);
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Signup Successful', { authToken });
+  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000 });
   res.send(generatedResponse);
 };
 const signIn = async (req, res) => {
@@ -48,8 +49,8 @@ const signIn = async (req, res) => {
   const generatedResponse = response.generateResponse(true, actionStatus.SUCCESS, {
     userId: retrievedUser.userId,
     email: retrievedUser.email,
-    authToken,
   });
+  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000 });
   res.send(generatedResponse);
 };
 const getAuthenticatedUserDetails = async (req, res) => {

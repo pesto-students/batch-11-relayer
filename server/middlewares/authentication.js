@@ -4,8 +4,9 @@ import * as actionStatus from '../constants/actionStatus';
 
 const validateAuthentication = async (req, res, next) => {
   try {
-    const { authorization } = req.header;
-    const token = authorization.split(' ')[1];
+    const authToken = req.headers.cookie.split(';')
+      .filter((el) => el.search('authToken') !== -1);
+    const token = authToken[0].split('=')[1];
     const decoded = await tokenLib.verifyAuthToken(token);
     req.user = { id: decoded.userId };
     next();

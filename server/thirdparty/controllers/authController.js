@@ -13,9 +13,11 @@ const renderAuthRequestPage = (req, res) => {
 
 const slackAuthGrant = (req, res) => {
   const appName = 'SLACK';
+  // userId
   const authGrantURL = `${constants[`${appName}_AUTH_GRANT_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_CLIENT_SECRET`]}&code=${req.query.code}`;
   axios.get(authGrantURL)
     .then((response) => {
+      console.log(response.data);
       const authorizedApp = {
         userId: req.userId,
         appName,
@@ -44,6 +46,7 @@ const slackAuthGrant = (req, res) => {
 
 const githubAuthGrant = (req, res) => {
   const appName = 'GITHUB';
+  // userId
   const options = {
     url: `${constants[`${appName}_AUTH_GRANT_URL`]}&${constants[`${appName}_CLIENT_ID`]}&${constants[`${appName}_CLIENT_SECRET`]}&code=${req.query.code}`,
     method: 'POST',

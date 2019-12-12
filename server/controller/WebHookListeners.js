@@ -7,13 +7,13 @@ const slackWebHookListener = async (event, authedUsers) => {
   setImmediate(SlackTriggerDispatcher, slackTriggeredRelays, event, authedUsers);
 };
 
-const gitWebHookListener = (event) => {
-  // console.log(event);
-};
+// const gitWebHookListener = (event) => {
+//   // console.log(event);
+// };
 
 const exports = {
   slackWebHookListener,
-  gitWebHookListener,
+  // gitWebHookListener,
 };
 
 export default exports;
