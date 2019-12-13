@@ -108,7 +108,7 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# react / gatsby 
+# react / gatsby
 public/
 
 # vuepress build output
@@ -488,5 +488,6 @@ MigrationBackup/
 
 #VSCode files
 .vscode
+.idea
 
 # End of https://www.gitignore.io/api/node,react,macos,visualstudio
