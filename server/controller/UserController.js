@@ -4,6 +4,7 @@ import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 import { hashPassword, comparePassword } from '../lib/passwordLib';
 import { createAuthToken } from '../lib/authTokenLib';
+import '../lib/cryptoLib';
 
 const UsersCollection = mongoose.model('User');
 
