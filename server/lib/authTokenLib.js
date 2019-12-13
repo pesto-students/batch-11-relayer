@@ -22,7 +22,15 @@ const verifyAuthToken = (authToken) => new Promise((resolve, reject) => {
   });
 });
 
+const getAuthCookie = (req) => {
+  const authToken = req.headers.cookie.split(';')
+    .filter((el) => el.search('authToken') !== -1);
+  const cookie = authToken[0].split('=')[1];
+  return verifyAuthToken(cookie);
+};
+
 module.exports = {
   createAuthToken,
   verifyAuthToken,
+  getAuthCookie,
 };
