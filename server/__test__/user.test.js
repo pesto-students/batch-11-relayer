@@ -1,9 +1,16 @@
+import mongoose from 'mongoose';
+
 const request = require('supertest');
 const app = require('../app.js');
 const actionStatus = require('../constants/actionStatus');
 
 describe('User Test', () => {
   describe('User Signup', () => {
+    afterAll(async (done) => {
+      await mongoose.disconnect();
+      done();
+    });
+
     it('should create a user', (done) => {
       request(app)
         .post('/user/signup')

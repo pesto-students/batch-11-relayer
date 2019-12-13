@@ -9,9 +9,9 @@ import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';
 import authorize from './thirdparty/routes/authorize';
-// import slackRouter from './thirdparty/routes/slackRouter';
-// import IntegrationService from './controller/IntegrationService';
-// import dataFetcher from './thirdparty/routes/DataFetcher';
+import slackRouter from './thirdparty/routes/slackRouter';
+import IntegrationService from './controller/IntegrationService';
+import dataFetcher from './thirdparty/routes/DataFetcher';
 
 
 dotenv.config();
@@ -31,7 +31,7 @@ app.use('/api/v1', AuthenticationMiddleware);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
 app.use(cors({ origin: '*' }));
-// eslint-disable-next-line no-restricted-syntax
+
 for (const route in routes) {
   if (Object.prototype.hasOwnProperty.call(routes, route)) {
     const routeObject = routes[route];
@@ -40,20 +40,17 @@ for (const route in routes) {
 }
 
 app.use('/', authorize);
-// app.use(slackRouter.path, slackRouter.router);
-// app.use('/api/v1', dataFetcher);
+app.use(slackRouter.path, slackRouter.router);
+app.use('/api/v1', dataFetcher);
 
-// catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
-// error handler
+
 app.use((err, req, res) => {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
@@ -69,7 +66,7 @@ mongoose.connection.on('error', (err) => {
 
 mongoose.connection.on('connected', () => {
   logger.info('Connected To DB');
-  // IntegrationService();
+  IntegrationService();
 });
 
 module.exports = app;
