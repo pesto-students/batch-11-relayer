@@ -1,22 +1,269 @@
-import React from 'react';
-import { Row, Col, Button } from 'reactstrap';
-import { Heading } from '../../common';
-import SelectRelay from './SelectRelay';
+/* eslint-disable no-alert */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-nested-ternary */
+import React, { useState } from 'react';
+import {
+  Row, Col, Label, Button, Input,
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Heading, Select, Loading } from '../../common';
+import ArrowImg from './ArrowImg';
+import CreateConfiguration from '../CreateConfiguration';
+import { BASE_URL, GET_AUTH_APP, GET_ALL_APPS } from '../../../apiUtils/url.config';
+import callAPI from '../../../apiUtils/apiCaller';
 
-const RelaySelection = () => {
+const RelaySelection = ({ appData, storeRelayData }) => {
+  const appNames = appData.map((app) => app.AppName);
+  appNames.unshift('Select');
+  const [triggers, setTriggers] = useState({ slackTriggers: [], githubTriggers: [] });
+  const [actions, setActions] = useState({ slackActions: [], githubActions: [] });
+  const [selectedApps, setSelectedApps] = useState({ triggerApp: '', actionApp: '' });
+  const [selectedTrigger, setSelectedTrigger] = useState('');
+  const [selectedAction, setSelectedAction] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isContinue, setIsContinue] = useState(false);
+  const [triggerAppAccount, setTriggerAppAccount] = useState([]);
+  const [actionAppAccount, setActionAppAccount] = useState([]);
+
+  window.onstorage = () => {
+    const authStatus = window.localStorage.getItem('AuthStatus');
+    if (authStatus === 'Success') {
+      setIsLoading(false);
+    }
+    window.localStorage.removeItem('AuthStatus');
+  };
+
+  const getAccountData = async (appName) => {
+    const data = await callAPI(`${BASE_URL + GET_ALL_APPS}/${appName}/authorizedAccounts`);
+    const accountData = [];
+    data.map((curr) => (accountData.push({
+      id: curr._id,
+      teamName: curr.credentials.slackTeamName,
+    })));
+    return accountData;
+  };
+
+  const onTriggerHandler = async (e) => {
+    const selectedApp = e.target.value || 'Slack';
+    setSelectedApps({ ...selectedApps, triggerApp: selectedApp });
+    if (selectedApp === 'Slack') {
+      setTriggers({
+        slackTriggers: appData.filter((app) => app.AppName === 'Slack')[0].Trigger,
+        githubTriggers: [],
+      });
+    } else if (selectedApp === 'Github') {
+      setTriggers({
+        githubTriggers: appData.filter((app) => app.AppName === 'Github')[0].Trigger,
+        slackTriggers: [],
+      });
+    }
+    const triggerAccData = await getAccountData(selectedApp);
+    setTriggerAppAccount(triggerAccData);
+  };
+
+  const onActionHandler = async (e) => {
+    const selectedApp = e.target.value || 'Slack';
+    setSelectedApps({ ...selectedApps, actionApp: selectedApp });
+    if (selectedApp === 'Slack') {
+      setActions({
+        slackActions: appData.filter((app) => app.AppName === 'Slack')[0].Action,
+        githubActions: [],
+      });
+    } else if (selectedApp === 'Github') {
+      setActions({
+        githubActions: appData.filter((app) => app.AppName === 'Github')[0].Action,
+        slackActions: [],
+      });
+    }
+    const actionAccData = await getAccountData(selectedApp);
+    setActionAppAccount(actionAccData);
+  };
+
+  const onNameChange = (e) => {
+    const relayName = e.target.value;
+    storeRelayData({ relayName });
+  };
+
+  const isValidApp = (app) => {
+    if (app !== ''
+      && app !== undefined
+      && app !== 'Select') {
+      return true;
+    }
+    return false;
+  };
+
+  const authorizeTriggerApp = () => {
+    if (isValidApp(selectedApps.triggerApp)) {
+      setIsLoading(true);
+      window.open(BASE_URL + GET_AUTH_APP + selectedApps.triggerApp,
+        `Authorize ${selectedApps.triggerApp}`);
+    } else {
+      alert('Select App 1');
+    }
+  };
+
+  const authorizeActionApp = () => {
+    if (isValidApp(selectedApps.actionApp)) {
+      setIsLoading(true);
+      window.open(BASE_URL + GET_AUTH_APP + selectedApps.actionApp,
+        `Authorize ${selectedApps.actionApp}`);
+    } else {
+      alert('Select App 2');
+    }
+  };
+
+  const onTriggerSelect = (e) => {
+    const trigger = e.target.value;
+    setSelectedTrigger(trigger);
+  };
+
+  const onActionSelect = (e) => {
+    const action = e.target.value;
+    setSelectedAction(action);
+  };
+
+  const onContinue = (e) => {
+    e.preventDefault();
+    setIsContinue(true);
+  };
+
+  const onCancel = (e) => {
+    e.preventDefault();
+    window.location.href = '/dashboard';
+  };
+
   return (
     <>
-      <Row>
-        <Heading title="Create New Relay" />
-      </Row>
-      <SelectRelay />
-      <Row className="mt-5 mb-5">
-        <Col className="align-center">
-          <Button outline color="primary" size="lg">Continue</Button>
-        </Col>
-      </Row>
+      {isContinue
+        ? (
+          <CreateConfiguration
+            apps={selectedApps}
+            trigger={selectedTrigger}
+            action={selectedAction}
+            triggerAccount={triggerAppAccount}
+            actionAccount={actionAppAccount}
+          />
+        )
+        : isLoading
+          ? <Loading />
+          : (
+            <>
+              <Row>
+                <Heading title="Create New Relay" />
+              </Row>
+              <Row>
+                <Col sm="12" md="4">
+                  <Label>Relay Name</Label>
+                  <Input type="text" name="relay-name" onChange={onNameChange} />
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="12" md="4">
+                  <Label>Select App 1</Label>
+                  <Select
+                    name="app1"
+                    _id="appSelect1"
+                    isRequired
+                    options={appNames}
+                    onSelect={onTriggerHandler}
+                  />
+                  <Button
+                    className="mt-3"
+                    outline
+                    color="primary"
+                    onClick={authorizeTriggerApp}
+                  >
+                    Authorize
+                  </Button>
+                </Col>
+                <ArrowImg />
+                <Col sm="12" md="4">
+                  <Label>Select App 2</Label>
+                  <Select
+                    name="app2"
+                    _id="appSelect2"
+                    isRequired
+                    options={appNames}
+                    onSelect={onActionHandler}
+                  />
+                  <Button
+                    className="mt-3"
+                    outline
+                    color="primary"
+                    onClick={authorizeActionApp}
+                  >
+                    Authorize
+                  </Button>
+                </Col>
+              </Row>
+              <Row className="mt-5">
+                <Col sm="12" md="4">
+                  <Label>Select Trigger</Label>
+                  <Select
+                    name="trigger"
+                    _id="triggerSelect"
+                    isRequired
+                    options={triggers.slackTriggers !== []
+                      ? triggers.slackTriggers
+                      : triggers.githubTriggers}
+                    onSelect={onTriggerSelect}
+                  />
+                </Col>
+                <ArrowImg />
+                <Col sm="12" md="4">
+                  <Label>Select Action</Label>
+                  <Select
+                    name="action"
+                    _id="actionSelect"
+                    isRequired
+                    options={actions.slackActions !== []
+                      ? actions.slackActions
+                      : actions.githubActions}
+                    onSelect={onActionSelect}
+                  />
+                </Col>
+              </Row>
+              <Row className="mt-5 mb-5">
+                <Col className="align-center">
+                  <Button
+                    outline
+                    color="primary"
+                    size="lg"
+                    onClick={onContinue}
+                    className="mr-2"
+                  >
+                    Continue
+                  </Button>
+                  <Button
+                    outline
+                    color="danger"
+                    size="lg"
+                    onClick={onCancel}
+                  >
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          )}
     </>
   );
 };
 
-export default RelaySelection;
+RelaySelection.propTypes = {
+  appData: PropTypes.arrayOf(PropTypes.shape({
+    Trigger: PropTypes.array,
+    Action: PropTypes.array,
+    AppName: PropTypes.string,
+    Icon: PropTypes.string,
+  })).isRequired,
+  storeRelayData: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { storeRelayData: (value) => { dispatch({ type: 'STORE_RELAY_DATA', value }); } };
+};
+
+export default connect(null, mapDispatchToProps)(RelaySelection);

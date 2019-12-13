@@ -14,7 +14,7 @@ const getApps = (req, res) => {
     }
     appsAndEvents.push(singleAppDetails);
   }
-
+  console.log(appsAndEvents);
   const generatedResponse = responseLib.generateResponse(false, actionStatus.SUCCESS,
     'Apps and Events', appsAndEvents);
   res.send(generatedResponse);
