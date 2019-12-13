@@ -8,7 +8,7 @@ import pino from 'express-pino-logger';
 import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';
-// import authorize from './thirdparty/routes/authorize';
+import authorize from './thirdparty/routes/authorize';
 // import slackRouter from './thirdparty/routes/slackRouter';
 // import IntegrationService from './controller/IntegrationService';
 // import dataFetcher from './thirdparty/routes/DataFetcher';
@@ -39,7 +39,7 @@ for (const route in routes) {
   }
 }
 
-// app.use('/', authorize);
+app.use('/', authorize);
 // app.use(slackRouter.path, slackRouter.router);
 // app.use('/api/v1', dataFetcher);
 

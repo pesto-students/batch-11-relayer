@@ -4,11 +4,8 @@ import * as actionStatus from '../constants/actionStatus';
 
 const validateAuthentication = async (req, res, next) => {
   try {
-    const authToken = req.headers.cookie.split(';')
-      .filter((el) => el.search('authToken') !== -1);
-    const token = authToken[0].split('=')[1];
-    const decoded = await tokenLib.verifyAuthToken(token);
-    req.user = { id: decoded.userId };
+    const decoded = await tokenLib.getAuthCookie(req);
+    req.userId = decoded.userId;
     next();
   } catch (e) {
     const generatedResponse = responseLib.generateResponse(
@@ -21,4 +18,4 @@ const validateAuthentication = async (req, res, next) => {
   }
 };
 
-module.exports = validateAuthentication;
+export default validateAuthentication;
