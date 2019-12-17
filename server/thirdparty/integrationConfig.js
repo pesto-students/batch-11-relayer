@@ -44,6 +44,24 @@ const IntegrationConfig = {
       },
     }],
   },
+  Github:{
+    icon_path: 'slackIcon.png',
+    Events:[{
+      EventName: 'Create New Issue',
+      EventType: 'Action',
+      OutputsWeGet: {
+        text: '%STRING%',
+        channel: {
+          url: 'https://slack.com/api/conversations.list',
+          method: 'GET',
+          urlParams: {
+            types: 'public_channel,private_channel',
+          },
+        },
+      },
+    }
+    ]
+  }
 };
 
 export default IntegrationConfig;

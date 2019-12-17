@@ -5,6 +5,7 @@ import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 import RelayCollection from '../models/Relays';
 import AuthorizedApps from '../models/AuthorizedApps';
+import logger from '../utils/logger'
 
 const getCriteria = (criteria) => {
   const filter = {};
@@ -100,15 +101,20 @@ const getSingleRelay = async (req, res) => {
 
 // validate entries, or get participantApp.authentication wholly instead of id
 const createNewRelay = async (req, res) => {
-  const relayDetails = req.body;
-  relayDetails.userId = req.userId;
+  try {
+    const relayDetails = req.body;
+    relayDetails.userId = req.userId;
+    const createdRelay = await RelayCollection.create(relayDetails);
 
-  const createdRelay = await RelayCollection.create(relayDetails);
+    const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,
+        'Created relay', createdRelay);
 
-  const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,
-    'Created relay', createdRelay);
-
-  res.send(generatedResponse);
+    res.send(generatedResponse);
+  } catch (err) {
+    logger.error(err)
+    const generatedResponse = response.generateResponse(true,actionStatus.FAILED,'Error',err)
+    res.send(generatedResponse)
+  }
 };
 
 const updateExistingRelay = async (req, res) => {
