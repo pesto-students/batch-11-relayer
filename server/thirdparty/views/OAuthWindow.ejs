@@ -16,10 +16,9 @@
 <script>
     function myFunction() {
         const redirectURL = encodeURI('<%- authorizationRequestURL %>');
-        console.log(redirectURL);
         window.open(redirectURL, "_top");
     }
-    setTimeout(myFunction, 1000);
+    setTimeout(myFunction, 200);
 </script>
 
 </html>

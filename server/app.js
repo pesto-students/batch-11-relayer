@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
 import pino from 'express-pino-logger';
-// import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';
 import authorize from './thirdparty/routes/authorize';
@@ -30,7 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicFolder));
 
 app.use('/', (req, res, next) => {
-
   if (req.headers.origin !== undefined) {
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -50,7 +48,6 @@ app.use('/', (req, res, next) => {
 app.use('/api/v1', AuthenticationMiddleware);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
-// app.use(cors({ origin: '*' }));
 
 for (const route in routes) {
   if (Object.prototype.hasOwnProperty.call(routes, route)) {
