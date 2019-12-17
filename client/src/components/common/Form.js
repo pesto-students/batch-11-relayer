@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import {
   Form as ReactstrapForm,
   Input,
@@ -13,7 +14,6 @@ import {
 const Form = ({ onClick, action, formFields }) => {
   const refs = [];
   const onSubmit = (event) => {
-    // event.preventDefault();
     onClick(event, ...refs);
   };
 
@@ -35,13 +35,15 @@ const Form = ({ onClick, action, formFields }) => {
       );
     }
     return (
-      <Button key={key} className={button.className} color={button.color}>
-        {action}
-      </Button>
+      <NavLink to="/dashboard" onClick={onSubmit}>
+        <Button key={key} className={button.className} color={button.color}>
+          {action}
+        </Button>
+      </NavLink>
     );
   });
   return (
-    <ReactstrapForm onSubmit={onSubmit}>
+    <ReactstrapForm>
       <RenderFields />
     </ReactstrapForm>
   );

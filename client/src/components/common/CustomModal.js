@@ -5,7 +5,7 @@ import {
 import PropTypes from 'prop-types';
 
 const CustomModal = ({
-  _modal, _toggle, _error, _success, _modalTitle, _modalBody, _successColor,
+  _modal, _toggle, _error, _success, _modalTitle, _modalBody, _successColor, _onSuccess,
 }) => {
   return (
     <div>
@@ -17,7 +17,7 @@ const CustomModal = ({
         <ModalFooter>
           <Button color="secondary" onClick={_toggle}>{_error}</Button>
           {' '}
-          {(_success !== '') ? <Button color={_successColor} onClick={_toggle}>{_success}</Button> : null}
+          {(_success !== '') ? <Button color={_successColor} onClick={_onSuccess}>{_success}</Button> : null}
         </ModalFooter>
       </Modal>
     </div>
@@ -25,13 +25,17 @@ const CustomModal = ({
 };
 
 CustomModal.propTypes = {
-  _modal: PropTypes.bool.isRequired,
-  _toggle: PropTypes.func.isRequired,
-  _error: PropTypes.string.isRequired,
-  _success: PropTypes.string.isRequired,
-  _successColor: PropTypes.string.isRequired,
-  _modalTitle: PropTypes.string.isRequired,
-  _modalBody: PropTypes.element.isRequired,
-};
+  _modal: PropTypes.bool,
+  _toggle: PropTypes.func,
+  _error: PropTypes.string,
+  _success: PropTypes.string,
+  _successColor: PropTypes.string,
+  _modalTitle: PropTypes.string,
+  _onSuccess: PropTypes.func,
+  _modalBody: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]),
+}.isRequired;
 
 export default CustomModal;

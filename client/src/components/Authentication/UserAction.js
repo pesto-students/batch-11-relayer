@@ -2,17 +2,22 @@ import React from 'react';
 import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm';
-import prepareRequest from '../../utils/requestEPLib';
-import '../../assets/styles/components/auth.module.scss';
+import { useUser } from '../../shared/UserProvider';
+import callAPI from '../../utils/apiCaller';
+import * as env from '../../utils/url.config';
 
 const UserAction = (props) => {
+  const { setUser } = useUser();
   const { action } = props;
   const userAction = async (event, email, pass) => {
-    event.preventDefault();
-    const actionArray = action.split(' ');
-    const requestObj = prepareRequest(actionArray[0].toLowerCase() + actionArray[1]);
-    requestObj.body = { email: email.current.value, password: pass.current.value };
-    // const response = await request(requestObj);
+    const formattedAction = action.replace(' ', '').toLowerCase();
+    const data = { email: email.current.value, password: pass.current.value };
+    const endpoint = formattedAction === 'signin' ? env.POST_USER_SIGN_IN : env.POST_USER_SIGN_UP;
+    const url = env.BASE_URL + endpoint;
+    const response = await callAPI(url, 'POST', data);
+    // const { status, message, error } = response;
+    setUser(response);
+    console.log(response);
   };
 
   return (

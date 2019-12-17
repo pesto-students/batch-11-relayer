@@ -27,9 +27,11 @@ const tabs = [
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(1);
+
   const toggleTab = (id) => {
     if (id !== activeTab) setActiveTab(id);
   };
+  console.log('inside dashboard');
   return (
     <Container className={styles.dashboard}>
       <Card>
