@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
 import pino from 'express-pino-logger';
-import cors from 'cors';
+// import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';
 import authorize from './thirdparty/routes/authorize';
@@ -23,14 +23,34 @@ const publicFolder = path.join(__dirname, '../assets');
 requireAll(modelDirPath);
 const routes = requireAll(routeDirPath);
 
+
 app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicFolder));
+
+app.use('/', (req, res, next) => {
+
+  if (req.headers.origin !== undefined) {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, *');
+  res.setHeader('Access-Control-Max-Age', '7200');
+
+  if (req.method === 'OPTIONS') {
+    res.send();
+  } else {
+    next();
+  }
+});
 app.use('/api/v1', AuthenticationMiddleware);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/thirdparty/views'));
-app.use(cors({ origin: '*' }));
+// app.use(cors({ origin: '*' }));
 
 for (const route in routes) {
   if (Object.prototype.hasOwnProperty.call(routes, route)) {
@@ -38,6 +58,7 @@ for (const route in routes) {
     app.use(routeObject.path, routeObject.router);
   }
 }
+
 
 app.use('/', authorize);
 app.use(slackRouter.path, slackRouter.router);
