@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import eventEmitter from '../lib/eventsLib';
 import slackActionPerformer from '../thirdparty/controller/SlackActionPerformer';
+import githubActionPerformer from '../thirdparty/controller/GithubActionPerformer';
 
 const ActionPerformer = async (relay, triggerEvent) => {
   const actionsToPerform = relay.participantApps.slice(1);
@@ -17,6 +18,7 @@ const ActionPerformer = async (relay, triggerEvent) => {
 const exports = {
   ActionPerformer,
   slackActionPerformer,
+  githubActionPerformer,
 };
 
 export default exports;
