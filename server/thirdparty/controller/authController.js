@@ -27,14 +27,27 @@ const storeSlackCredentials = ({ data }, userId) => {
   return AuthorizedApps.create(authorizedApp);
 };
 
-const storeGithubCredentials = ({ data }, userId) => {
+const getGithubUsername = async (authToken) => {
+  const axiosOptions = {
+    url: 'https://api.github.com/user',
+    method: 'GET',
+    headers: { Authorization: `token ${authToken}` },
+  };
+
+  return axios(axiosOptions);
+};
+
+const storeGithubCredentials = async ({ data }, userId) => {
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
+
+  const { data: { name: owner } } = await getGithubUsername(data.access_token);
 
   authorizedApp.appName = 'Github';
   authorizedApp.userId = userId;
   authorizedApp.authToken = data.access_token;
   authorizedApp.credentials.set('githubTokenType', data.token_type);
+  authorizedApp.credentials.set('owner', owner);
 
 
   return AuthorizedApps.create(authorizedApp);

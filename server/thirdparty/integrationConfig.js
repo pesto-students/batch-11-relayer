@@ -2,7 +2,7 @@ const IntegrationConfig = {
   Slack: {
     icon_path: 'slackIcon.png',
     Events: [{
-      EventName: 'New Message Posted to Channel',
+      EventName: 'New Message Posted to Public Channel',
       EventType: 'Trigger',
       OutputsWeGet: {
         text: '%STRING%',
@@ -10,20 +10,22 @@ const IntegrationConfig = {
           url: 'https://slack.com/api/conversations.list',
           method: 'GET',
           urlParams: {
-            types: 'public_channel,private_channel',
+            types: 'public_channel',
           },
         },
       },
     }, {
-      EventName: 'New Direct Message Posted',
+      EventName: 'New Message Posted to Private Channel',
       EventType: 'Trigger',
       OutputsWeGet: {
-        type: 'message',
         text: '%STRING%',
-        user: '%STRING%',
-        team: '%STRING%',
-        channel: '%STRING%',
-        channel_type: 'im',
+        channel: {
+          url: 'https://slack.com/api/conversations.list',
+          method: 'GET',
+          urlParams: {
+            types: 'private_channel',
+          },
+        },
       },
     }, {
       EventName: 'Send a Message to a Channel',
@@ -40,6 +42,21 @@ const IntegrationConfig = {
       },
       ApiToInvoke: {
         url: 'https://slack.com/api/chat.postMessage',
+        method: 'POST',
+      },
+    }],
+  },
+  Github: {
+    icon_path: 'slackIcon.png',
+    Events: [{
+      EventName: 'Create a New Issue',
+      EventType: 'Action',
+      InputsWeNeed: {
+        repo: '%STRING%',
+        title: '%STRING%',
+      },
+      ApiToInvoke: {
+        url: 'https://api.github.com/repos',
         method: 'POST',
       },
     }],
