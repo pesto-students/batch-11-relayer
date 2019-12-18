@@ -5,6 +5,7 @@ import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 import RelayCollection from '../models/Relays';
 import AuthorizedApps from '../models/AuthorizedApps';
+import RelayHistory from "../models/RelayHistory";
 
 const getCriteria = (criteria) => {
   const filter = {};
@@ -140,7 +141,18 @@ const moveRelayToTrash = async (req, res) => {
   res.send(generatedResponse);
 };
 
-
+const getRelayLog = async(req,res) => {
+  const skipNumber = req.query.page ? req.query.page * 10 : 0 ;
+  const relayLog = await RelayHistory.find({relayId: req.query.relayId},{_id:0,__v:0})
+      .sort('-createdAt')
+      .limit(10)
+      .skip(skipNumber)
+      .lean();
+  const generatedResponse = !relayLog ?
+      response.generateResponse(false,'No Log Found',actionStatus.NOT_FOUND,null):
+      response.generateResponse(false,'Log Data Found',actionStatus.SUCCESS,relayLog);
+  res.send(generatedResponse);
+}
 module.exports = {
   getRelays,
   getSingleRelay,
@@ -149,4 +161,5 @@ module.exports = {
   createNewRelay,
   updateExistingRelay,
   moveRelayToTrash,
+  getRelayLog
 };
