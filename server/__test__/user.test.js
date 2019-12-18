@@ -60,4 +60,32 @@ describe('User Test', () => {
         });
     });
   });
+    describe('User Login', ()=> {
+        it('should login with valid credentials', function () {
+            request(app)
+                .post('/user/signin')
+                .set('Content-Type', 'application/json')
+                .send({ email: 'sourav@pesto.tech',password:'password'})
+                .expect(200)
+                .expect((err,res)=>{
+                    expect(err).toBeFalsy()
+                    expect(res.body.error).toBe(false);
+                    expect(res.statusCode).toBe(200);
+                    expect(res.body.password).toBeFalsy();
+                    expect(res.body).toBeTruthy();
+                })
+        });
+        it('should fail with invalid credentials', function () {
+            request(app)
+                .get('/user/signin')
+                .set('Content-Type', 'application/json')
+                .send({ email: 'sourav@pesto.tech',password:'12345678'})
+                .expect(200)
+                .expect((err,res)=>{
+                    expect(err).toBeFalsy()
+                    expect(res.body.error).toBe(true);
+                    expect(res.statusCode).toBe(200);
+                })
+        });
+    });
 });

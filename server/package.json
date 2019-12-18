@@ -5,7 +5,7 @@
   "scripts": {
     "start:dev": "nodemon --exec babel-node ./bin/www",
     "start": "babel-node ./bin/www",
-    "test": "jest --runInBand",
+    "test": "jest --forceExit",
     "lint": "eslint --ext .js . --fix"
   },
   "dependencies": {
