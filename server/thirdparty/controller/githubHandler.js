@@ -1,12 +1,13 @@
 import Relay from '../../models/Relays';
 import AuthorizedApps from '../../models/AuthorizedApps';
-import { getAllRepo } from '../lib/githubLib';
+import {createRepo, getAllRepo} from '../lib/githubLib';
 import { postMessage } from '../lib/slackLib';
 import eventEmitter from "../../lib/eventsLib";
 import "../../lib/relayHistoryLib";
+import {validateArgs,convertArgsStringToObject} from "../../lib/argumentProcessor";
 
 const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
-  const action = event.text.split(':')[1];
+  const action = convertArgsStringToObject(event.text)['_'][0].split(':')[1]
   const authorizedSlackApp = await AuthorizedApps.findOne({ appName: 'Slack', 'credentials.slackUserId': authenticatedUser[0] }).lean();
   const authorizedGithubApp = await AuthorizedApps.findOne({appName: 'Github',userId:authorizedSlackApp.userId}).lean()
   const messageConfig = {channel: event.channel,token:authorizedSlackApp.authToken}
@@ -35,7 +36,7 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
     }
     case 'allRepo': {
       const response = await getAllRepo(authorizedGithubApp.authToken);
-      await postMessage({...messageConfig,text:response});
+      await postMessage({...messageConfig,text:response.responseMessage});
         eventEmitter.emit('relayHistory:create',{
             relayId:foundRelay.relayId,
             from:'Slack',
@@ -46,10 +47,21 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
       break;
     }
     case 'createRepo': {
-
+        const options = validateArgs(event.text,["name"])
+        if(!options) {
+            const message = `Repository name needs to be passed: \`github:createRepo --name Repo Name\` `
+            await postMessage({...messageConfig,text:message})
+        } else {
+            const response = await createRepo(authorizedGithubApp.authToken,options)
+            await postMessage({...messageConfig,text:response.responseMessage})
+        }
+        break;
     }
     default: {
-
+        const message = "*Command Not Found* \n" +
+            "1. `github:help` Shows the help command \n"+
+            "2. `github:allRepo` Shows all your repo"
+        await postMessage({...messageConfig,text:message});
     }
   }
 };
