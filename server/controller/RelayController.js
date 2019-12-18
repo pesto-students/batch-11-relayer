@@ -5,7 +5,7 @@ import response from '../lib/responseLib';
 import * as actionStatus from '../constants/actionStatus';
 import RelayCollection from '../models/Relays';
 import AuthorizedApps from '../models/AuthorizedApps';
-import logger from '../utils/logger'
+import logger from '../utils/logger';
 
 const getCriteria = (criteria) => {
   const filter = {};
@@ -107,13 +107,13 @@ const createNewRelay = async (req, res) => {
     const createdRelay = await RelayCollection.create(relayDetails);
 
     const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,
-        'Created relay', createdRelay);
+      'Created relay', createdRelay);
 
     res.send(generatedResponse);
   } catch (err) {
-    logger.error(err)
-    const generatedResponse = response.generateResponse(true,actionStatus.FAILED,'Error',err)
-    res.send(generatedResponse)
+    logger.error(err);
+    const generatedResponse = response.generateResponse(true, actionStatus.FAILED, 'Error', err);
+    res.send(generatedResponse);
   }
 };
 

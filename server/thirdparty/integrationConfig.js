@@ -44,9 +44,9 @@ const IntegrationConfig = {
       },
     }],
   },
-  Github:{
+  Github: {
     icon_path: 'slackIcon.png',
-    Events:[{
+    Events: [{
       EventName: 'Create New Issue',
       EventType: 'Action',
       OutputsWeGet: {
@@ -59,9 +59,9 @@ const IntegrationConfig = {
           },
         },
       },
-    }
-    ]
-  }
+    },
+    ],
+  },
 };
 
 export default IntegrationConfig;
