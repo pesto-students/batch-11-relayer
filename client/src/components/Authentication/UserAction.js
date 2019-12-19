@@ -3,8 +3,7 @@ import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import UserForm from './UserForm';
 import prepareRequest from '../../utils/requestEPLib';
-// import request from '../../utils/requestLib';
-import '../../assets/styles/components/signup.module.scss';
+import '../../assets/styles/components/auth.module.scss';
 
 const UserAction = (props) => {
   const { action } = props;
