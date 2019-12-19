@@ -8,6 +8,7 @@ router.get('/relays/:relayId', RelayController.getSingleRelay);
 router.post('/relays', RelayController.createNewRelay);
 router.put('/relays/:relayId', RelayController.updateExistingRelay);
 router.delete('/relays/:relayId', RelayController.moveRelayToTrash);
+router.get('/relay/log', RelayController.getRelayLog);
 
 module.exports = {
   path: '/api/v1',
