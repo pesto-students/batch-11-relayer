@@ -14,6 +14,7 @@ const getCriteria = (criteria) => {
   if (criteria.running) {
     filter.isRunning = criteria.running === 'true';
   }
+  return filter
 };
 
 const relayQuery = async (filter, selectObject = {
@@ -52,6 +53,8 @@ const getRelays = async (req, res) => {
     'participantApps.appName': 1,
     'participantApps.event': 1,
     'participantApps.eventType': 1,
+    createdAt: 1,
+    updatedAt: 1
   });
 
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,
