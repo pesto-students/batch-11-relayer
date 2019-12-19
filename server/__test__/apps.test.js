@@ -36,7 +36,7 @@ describe('Apps test', () => {
   });
 
   test('should get the details of an event', (done) => {
-    const eventName = 'New Message Posted to Channel';
+    const eventName = 'New Message Posted to Public Channel';
     request(app)
       .get(`/api/v1/apps/Slack/?eventName=${eventName}`)
       .set('Cookie', `authToken=${authToken}`)
