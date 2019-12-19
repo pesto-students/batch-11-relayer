@@ -4,6 +4,7 @@ import { Header } from './components/common';
 import LandingPage from './components/LandingPage/LandingPage';
 import { CreateNewRelay, TaskHistory, MyApps } from './components/Dashboard';
 import TaskHistoryDetail from './components/Dashboard/TaskHistory/TaskHistoryDetail';
+import Dashboard from './components/Dashboard/Dashboard';
 import { SignUp, SignIn } from './components/Authentication/UserActions';
 
 const Main = () => (
@@ -17,6 +18,7 @@ const Main = () => (
       <Route exact path="/taskhistory" component={TaskHistory} />
       <Route exact path="/taskhistory/:id" component={TaskHistoryDetail} />
       <Route exact path="/myapps" component={MyApps} />
+      <Route exact path="/dashboard" component={Dashboard} />
       <Redirect from="/" to="/home" />
     </Switch>
   </>
