@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SignUp } from './UserActions';
+import { SignUp } from '../components/Authentication/UserActions';
 
 describe('<UserActions />', () => {
   it('renders the UserActions component', () => {
