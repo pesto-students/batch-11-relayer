@@ -16,7 +16,7 @@ const getCriteria = (criteria) => {
   if (criteria.isRunning) {
     filter.isRunning = criteria.isRunning === 'true';
   }
-  return filter
+  return filter;
 };
 
 const relayQuery = async (filter, selectObject = {
