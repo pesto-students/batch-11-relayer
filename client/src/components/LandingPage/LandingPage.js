@@ -2,11 +2,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
 import styles from '../../assets/styles/components/landingPage.module.scss';
+import logo from '../../assets/logo/relayer-logo.png';
 
 const LandingPage = () => {
   return (
-    <Container className={`${styles.container} mt-5`}>
-      <h1> Relayer </h1>
+    <Container className={`${styles.container}`}>
+      <img src={logo} alt="relayer logo" />
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

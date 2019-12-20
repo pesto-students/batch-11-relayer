@@ -6,3 +6,4 @@ export { default as RowCol } from './RowCol';
 export { default as CardWithImage } from './CardWithImage';
 export { default as CustomModal } from './CustomModal';
 export { default as Form } from './Form';
+export { default as Loading } from './Loading';
