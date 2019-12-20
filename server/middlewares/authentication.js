@@ -14,6 +14,7 @@ const validateAuthentication = async (req, res, next) => {
       actionStatus.NOT_ALLOWED,
       null,
     );
+    res.clearCookie('authToken')
     res.status(401).send(generatedResponse);
   }
 };

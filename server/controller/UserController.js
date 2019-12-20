@@ -61,7 +61,7 @@ const signIn = async (req, res) => {
 };
 
 const getAuthenticatedUserDetails = async (req, res) => {
-  const userId = req.user;
+  const userId = req.userId;
   const retrievedUser = await UsersCollection.findOne({ userId }, { password: 0, _id: 0 });
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'User Fetched', retrievedUser);
   res.send(generatedResponse);

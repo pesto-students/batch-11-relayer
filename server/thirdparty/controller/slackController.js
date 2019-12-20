@@ -5,7 +5,6 @@ import eventEmitter from '../../lib/eventsLib';
 const slackController = (req, res) => {
   const { challenge } = req.body;
   const response = responseLib.generateResponse(false, 200, actionStatus.SUCCESS, { challenge });
-
   eventEmitter.emit('slackWebHook', req.body.event, req.body.authed_users);
 
   res.send(response);
