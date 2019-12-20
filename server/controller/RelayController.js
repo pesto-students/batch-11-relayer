@@ -10,11 +10,11 @@ import logger from '../utils/logger';
 
 const getCriteria = (criteria) => {
   const filter = {};
-  if (criteria.deleted) {
-    filter.isDeleted = criteria.deleted === 'true';
+  if (criteria.isDeleted) {
+    filter.isDeleted = criteria.isDeleted === 'true';
   }
-  if (criteria.running) {
-    filter.isRunning = criteria.running === 'true';
+  if (criteria.isRunning) {
+    filter.isRunning = criteria.isRunning === 'true';
   }
   return filter;
 };
@@ -138,11 +138,11 @@ const updateExistingRelay = async (req, res) => {
 
 const moveRelayToTrash = async (req, res) => {
   const relayIDToBeDeleted = {};
-  relayIDToBeDeleted._id = req.params.relayId;
+  relayIDToBeDeleted.relayId = req.params.relayId;
   relayIDToBeDeleted.userId = req.userId;
 
   const deletedRelayDetails = await RelayCollection.findOneAndUpdate(relayIDToBeDeleted,
-    { isDeleted: false });
+    { isDeleted: true });
 
   const generatedResponse = response.generateResponse(false,
     actionStatus.SUCCESS, 'Deleted relay', deletedRelayDetails);
@@ -154,6 +154,7 @@ const getRelayLog = async (req, res) => {
   const skipNumber = req.query.page ? req.query.page * 10 : 0;
   const requestOptions = {
     userId: req.userId,
+    isRunning: req.query.isRunning,
   };
   if (req.query.relayId) {
     requestOptions.relayId = req.query.relayId;
