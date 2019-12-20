@@ -16,7 +16,7 @@ const getCriteria = (criteria) => {
   if (criteria.running) {
     filter.isRunning = criteria.running === 'true';
   }
-  return filter
+  return filter;
 };
 
 const relayQuery = async (filter, selectObject = {
@@ -56,7 +56,7 @@ const getRelays = async (req, res) => {
     'participantApps.event': 1,
     'participantApps.eventType': 1,
     createdAt: 1,
-    updatedAt: 1
+    updatedAt: 1,
   });
 
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,
@@ -152,15 +152,48 @@ const moveRelayToTrash = async (req, res) => {
 
 const getRelayLog = async (req, res) => {
   const skipNumber = req.query.page ? req.query.page * 10 : 0;
-  const relayLog = await RelayHistory.find({ relayId: req.query.relayId }, { _id: 0, __v: 0 })
+  const requestOptions = {
+    userId: req.userId,
+  };
+  if (req.query.relayId) {
+    requestOptions.relayId = req.query.relayId;
+  }
+  const relays = await RelayCollection.find(requestOptions, { participantApps: 0 }).lean();
+  const relayLog = await RelayHistory.find({ relayId: { $in: relays.map((relay) => relay.relayId) } }, { _id: 0, __v: 0 })
     .sort('-createdAt')
     .limit(10)
     .skip(skipNumber)
     .lean();
+  const merged = [];
+  for (let i = 0; i < relayLog.length; i += 1) {
+    merged.push({
+      ...relayLog[i],
+      ...(relays.find((itmInner) => itmInner.relayId === relayLog[i].relayId)),
+    });
+  }
   const generatedResponse = !relayLog
     ? response.generateResponse(false, 'No Log Found', actionStatus.NOT_FOUND, null)
-    : response.generateResponse(false, 'Log Data Found', actionStatus.SUCCESS, relayLog);
+    : response.generateResponse(false, 'Log Data Found', actionStatus.SUCCESS, merged);
   res.send(generatedResponse);
+};
+const changeRelayStatusToggle = async (req, res) => {
+  try {
+    const relay = await RelayCollection.findOne({
+      relayId: req.query.relayId,
+      userId: req.userId,
+    });
+    if (relay) {
+      relay.isRunning = !relay.isRunning;
+    }
+    const updatedRelay = await relay.save();
+    const generatedResponse = updatedRelay
+      ? response.generateResponse(false, 'Status Updated', actionStatus.SUCCESS, updatedRelay)
+      : response.generateResponse(true, 'Not Updated', actionStatus.FAILED, updatedRelay);
+    res.send(generatedResponse);
+  } catch (e) {
+    const generatedResponse = response.generateResponse(true, 'Internal Error Occurred', actionStatus.FAILED, null);
+    res.send(generatedResponse);
+  }
 };
 module.exports = {
   getRelays,
@@ -171,4 +204,5 @@ module.exports = {
   updateExistingRelay,
   moveRelayToTrash,
   getRelayLog,
+  changeRelayStatusToggle,
 };
