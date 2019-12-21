@@ -5,10 +5,11 @@
   "scripts": {
     "start:dev": "nodemon --exec babel-node ./bin/www",
     "start": "babel-node ./bin/www",
-    "test": "jest --runInBand",
+    "test": "jest --forceExit",
     "lint": "eslint --ext .js . --fix"
   },
   "dependencies": {
+    "argparse": "^1.0.10",
     "axios": "^0.19.0",
     "bcrypt": "^3.0.7",
     "cors": "^2.8.5",
@@ -20,13 +21,15 @@
     "express-pino-logger": "^4.0.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
+    "minimist": "^1.2.0",
     "moment": "^2.24.0",
     "mongoose": "^5.7.13",
     "nodemon": "^2.0.1",
     "pino": "^5.14.0",
     "request": "^2.88.0",
     "require-all": "^3.0.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "yargs-parser": "^16.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",

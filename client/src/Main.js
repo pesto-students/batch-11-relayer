@@ -2,7 +2,9 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Header } from './components/common';
 import LandingPage from './components/LandingPage/LandingPage';
-import { CreateNewRelay, TaskHistory, MyApps } from './components/Dashboard';
+import {
+  CreateNewRelay, TaskHistory, MyApps,
+} from './components/Dashboard';
 import TaskHistoryDetail from './components/Dashboard/TaskHistory/TaskHistoryDetail';
 import { SignUp, SignIn } from './components/Authentication/UserActions';
 import { useUser } from './shared/UserProvider';
@@ -25,6 +27,7 @@ const Main = () => {
       }}
     />
   );
+const Main = () => {
   return (
     <>
       <Header />
