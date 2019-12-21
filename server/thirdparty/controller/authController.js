@@ -14,6 +14,7 @@ const renderAuthRequestPage = (req, res) => {
 };
 
 const storeSlackCredentials = ({ data }, userId) => {
+  console.log(data)
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
 
