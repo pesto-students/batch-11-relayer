@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
 import pino from 'express-pino-logger';
+import cookieDomain from 'cookie-domain';
 // import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';
@@ -16,7 +17,7 @@ import dataFetcher from './thirdparty/routes/DataFetcher';
 
 dotenv.config();
 const app = express();
-
+app.use(cookieDomain());
 const modelDirPath = path.join(__dirname, 'models');
 const routeDirPath = path.join(__dirname, 'routes');
 const publicFolder = path.join(__dirname, '../assets');
