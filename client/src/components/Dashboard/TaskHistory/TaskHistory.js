@@ -8,7 +8,7 @@ import { BASE_URL, GET_TASK_HISTORY, GET_ALL_RELAYS } from '../../../apiUtils/ur
 import getFormattedDate from '../../../utils/formatDateUtil';
 import styles from '../../../assets/styles/components/taskhistory.module.scss';
 import Pagination from '../../common/Pagination/Pagination';
-import { usePageContext, PageProvider } from '../../shared/PageProvider';
+import { usePageContext, PageProvider } from '../../../shared/PageProvider';
 
 const TaskHistory = () => {
   const [taskHistory, setTaskHistory] = useState([]);

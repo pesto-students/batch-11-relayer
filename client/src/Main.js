@@ -27,7 +27,6 @@ const Main = () => {
       }}
     />
   );
-const Main = () => {
   return (
     <>
       <Header />
