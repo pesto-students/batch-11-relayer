@@ -191,7 +191,7 @@ const RelaySelection = ({ appData, storeRelayData }) => {
                   name="trigger"
                   _id="triggerSelect"
                   isRequired
-                  options={triggers.slackTriggers !== []
+                  options={triggers.slackTriggers.length !== 0
                     ? triggers.slackTriggers
                     : triggers.githubTriggers}
                   onSelect={onTriggerSelect}
@@ -204,7 +204,7 @@ const RelaySelection = ({ appData, storeRelayData }) => {
                   name="action"
                   _id="actionSelect"
                   isRequired
-                  options={actions.slackActions !== []
+                  options={actions.slackActions.length !== 0
                     ? actions.slackActions
                     : actions.githubActions}
                   onSelect={onActionSelect}

@@ -9,12 +9,11 @@ const LandingPage = () => {
     <Container className={`${styles.container}`}>
       <img src={logo} alt="relayer logo" />
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Relayer is a bridge that connects one or more apps in multiple way.
+        Helps you to create automation and perform actions.
+      </p>
+      <p>
+        In simple words, makes life easier.
       </p>
       <NavLink to="/signup">
         <Button size="lg" color="primary"> Get Started </Button>
