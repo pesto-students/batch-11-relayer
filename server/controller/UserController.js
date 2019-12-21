@@ -66,7 +66,7 @@ const getAuthenticatedUserDetails = async (req, res) => {
   res.send(generatedResponse);
 };
 const signOut = (req, res) => {
-  res.clearCookie('authToken');
+  res.clearCookie('authToken', { domain: req.headers.host });
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Logged Out', null);
   res.send(generatedResponse);
 };
