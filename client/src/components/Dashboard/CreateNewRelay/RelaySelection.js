@@ -159,7 +159,7 @@ const RelaySelection = ({ appData, storeRelayData }) => {
                   <Input type="text" name="relay-name" onChange={onNameChange} />
                 </Col>
               </Row>
-              <Row>
+              <Row className="mt-5">
                 <Col sm="12" md="4">
                   <Label>Select App 1</Label>
                   <Select

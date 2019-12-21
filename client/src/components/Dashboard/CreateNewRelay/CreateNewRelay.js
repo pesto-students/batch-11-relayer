@@ -4,7 +4,6 @@ import {
 } from 'reactstrap';
 import RelaySelection from './RelaySelection';
 import callAPI from '../../../apiUtils/apiCaller';
-import { CreateRelayProvider } from '../../../store/CreateRelayProvider';
 import { BASE_URL, GET_ALL_APPS } from '../../../apiUtils/url.config';
 
 const CreateNewRelay = () => {
@@ -19,13 +18,11 @@ const CreateNewRelay = () => {
   }, []);
 
   return (
-    <CreateRelayProvider>
-      <Container>
-        <Form>
-          <RelaySelection appData={relayData} />
-        </Form>
-      </Container>
-    </CreateRelayProvider>
+    <Container>
+      <Form>
+        <RelaySelection appData={relayData} />
+      </Form>
+    </Container>
   );
 };
 
