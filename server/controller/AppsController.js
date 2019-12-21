@@ -38,7 +38,7 @@ const getAuthorizedAccounts = async (req, res) => {
     userId: req.userId,
     appName: req.params.appName,
   }).select({
-    _id: 0,
+    _id: 1,
     appName: 1,
     email: 1,
     credentials: 1,
