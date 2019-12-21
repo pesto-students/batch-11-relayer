@@ -14,7 +14,6 @@ const renderAuthRequestPage = (req, res) => {
 };
 
 const storeSlackCredentials = ({ data }, userId) => {
-  console.log(data)
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
 
@@ -25,11 +24,11 @@ const storeSlackCredentials = ({ data }, userId) => {
   authorizedApp.credentials.set('slackTeamId', data.team_id);
   authorizedApp.credentials.set('slackTeamName', data.team_name);
 
-  return AuthorizedApps.create(authorizedApp);
+  return AuthorizedApps.update({ userId }, authorizedApp, { upsert: true });
 };
 
 const storeGithubCredentials = ({ data }, userId) => {
-  console.log(data)
+  console.log(data);
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
 
@@ -39,7 +38,7 @@ const storeGithubCredentials = ({ data }, userId) => {
   authorizedApp.credentials.set('githubTokenType', data.token_type);
 
 
-  return AuthorizedApps.create(authorizedApp);
+  return AuthorizedApps.update({ userId }, authorizedApp, { upsert: true });
 };
 
 const slackAuthGrant = async (req, res) => {
