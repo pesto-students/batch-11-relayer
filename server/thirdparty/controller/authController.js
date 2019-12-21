@@ -24,7 +24,7 @@ const storeSlackCredentials = ({ data }, userId) => {
   authorizedApp.credentials.set('slackTeamId', data.team_id);
   authorizedApp.credentials.set('slackTeamName', data.team_name);
 
-  return AuthorizedApps.update({ userId }, authorizedApp, { upsert: true });
+  return AuthorizedApps.create(authorizedApp);
 };
 
 const storeGithubCredentials = ({ data }, userId) => {
@@ -38,7 +38,7 @@ const storeGithubCredentials = ({ data }, userId) => {
   authorizedApp.credentials.set('githubTokenType', data.token_type);
 
 
-  return AuthorizedApps.update({ userId }, authorizedApp, { upsert: true });
+  return AuthorizedApps.create(authorizedApp);
 };
 
 const slackAuthGrant = async (req, res) => {
