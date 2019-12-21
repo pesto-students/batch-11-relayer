@@ -10,6 +10,17 @@ import { SignUp, SignIn } from './components/Authentication/UserActions';
 import { useUser } from './shared/UserProvider';
 import Dashboard from './components/Dashboard/Dashboard';
 
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={() => {
+        console.log(status);
+      	return status === 'SUCCESS'
+          ? <Component />
+          : <Redirect to="/" />;
+      }}
+    />
+  );
 const Main = () => {
   const { user } = useUser();
   console.log(user.status);

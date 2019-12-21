@@ -14,7 +14,6 @@ const renderAuthRequestPage = (req, res) => {
 };
 
 const storeSlackCredentials = ({ data }, userId) => {
-  console.log(data)
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
 
@@ -29,7 +28,7 @@ const storeSlackCredentials = ({ data }, userId) => {
 };
 
 const storeGithubCredentials = ({ data }, userId) => {
-  console.log(data)
+  console.log(data);
   const authorizedApp = {};
   authorizedApp.credentials = new Map();
 

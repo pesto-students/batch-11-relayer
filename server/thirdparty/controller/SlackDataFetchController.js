@@ -66,9 +66,10 @@ const SlackDataFetchController = async (req, res) => {
   const responseData = [];
 
   const resp = await getFromConfig(req);
-  const parsedResponse = parseResponse(resp, DetailName);
 
+  console.log(resp)
   if (resp) {
+    const parsedResponse = parseResponse(resp, DetailName);
     for (const data of parsedResponse) {
       const { id, name } = data;
       responseData.push({ id, name });

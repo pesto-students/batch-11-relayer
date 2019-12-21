@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import requireAll from 'require-all';
 import pino from 'express-pino-logger';
+import cookieDomain from 'cookie-domain';
 // import cors from 'cors';
 import logger from './utils/logger';
 import AuthenticationMiddleware from './middlewares/authentication';

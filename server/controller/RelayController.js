@@ -20,7 +20,7 @@ const getCriteria = (criteria) => {
 };
 
 const relayQuery = async (filter, selectObject = {
-  _id: 0,
+  _id: 1,
   relayName: 1,
   isRunning: 1,
   isDeleted: 1,
