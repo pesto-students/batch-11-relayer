@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
   const { userId } = await UsersCollection.create(userObject);
   const authToken = createAuthToken(userId);
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Signup Successful', { authToken });
-  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
+  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.origin });
   res.send(generatedResponse);
 };
 
@@ -54,7 +54,7 @@ const signIn = async (req, res) => {
       userId: retrievedUser.userId,
       email: retrievedUser.email,
     });
-    res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
+    res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.origin });
     res.send(generatedResponse);
   }
 };
@@ -66,7 +66,7 @@ const getAuthenticatedUserDetails = async (req, res) => {
   res.send(generatedResponse);
 };
 const signOut = (req, res) => {
-  res.clearCookie('authToken', { domain: req.headers.host });
+  res.clearCookie('authToken', { domain: req.headers.origin });
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Logged Out', null);
   res.send(generatedResponse);
 };
