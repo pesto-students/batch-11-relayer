@@ -65,9 +65,14 @@ const getAuthenticatedUserDetails = async (req, res) => {
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'User Fetched', retrievedUser);
   res.send(generatedResponse);
 };
-
+const signOut = (req, res) => {
+  res.clearCookie('authToken');
+  const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Logged Out', null);
+  res.send(generatedResponse);
+};
 module.exports = {
   createUser,
   signIn,
   getAuthenticatedUserDetails,
+  signOut,
 };
