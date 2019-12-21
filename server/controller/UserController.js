@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
   const { userId } = await UsersCollection.create(userObject);
   const authToken = createAuthToken(userId);
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Signup Successful', { authToken });
-  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000 });
+  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
   res.send(generatedResponse);
 };
 
@@ -50,18 +50,17 @@ const signIn = async (req, res) => {
     res.send(generatedResponse);
   } else {
     const authToken = createAuthToken(retrievedUser.userId);
-    const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,'Login Successful', {
+    const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Login Successful', {
       userId: retrievedUser.userId,
       email: retrievedUser.email,
     });
-    res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000 });
+    res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
     res.send(generatedResponse);
   }
-
 };
 
 const getAuthenticatedUserDetails = async (req, res) => {
-  const userId = req.userId;
+  const { userId } = req;
   const retrievedUser = await UsersCollection.findOne({ userId }, { password: 0, _id: 0 });
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'User Fetched', retrievedUser);
   res.send(generatedResponse);

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Pagination as Paginate } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { usePageContext } from '../../shared/PageProvider';
+import { usePageContext } from '../../../shared/PageProvider';
 import Item from './Item';
 import { handlePages } from './pageUtils';
 import useStateCallback from '../useStateCallback';

@@ -17,7 +17,12 @@ const UserForm = (props) => {
           Already a member? &nbsp;
           <NavLink to="/signin"> Sign In </NavLink>
         </p>
-      ) : null}
+      ) : (
+        <p className="mt-4">
+          Not a member yet ? &nbsp;
+          <NavLink to="/signup"> Sign Up </NavLink>
+        </p>
+      )}
     </>
   );
 };
