@@ -136,41 +136,47 @@ const CreateConfiguration = ({
               : null;
           })}
         </Input>
-        <Label className="mt-5">
-          Configure
-          {` ${apps.actionApp}`}
-        </Label>
-        <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
-          {actionAccount.map((option) => (
-            <option
-              key={option.id}
-              value={option.id}
-            >
-              {option.teamName}
-            </option>
-          ))}
-        </Input>
-        <Input type="select" className="mt-2" id="actionFields" onClick={onActionFieldsHandler}>
-          {Object.keys(actionFields).map((key) => {
-            return (typeof actionFields[key] === 'object')
-              ? actionOptions.map((option) => {
-                return (
+        {apps.actionApp === 'Github'
+          ? null
+          : (
+            <>
+              <Label className="mt-5">
+                Configure
+                {` ${apps.actionApp}`}
+              </Label>
+              <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
+                {actionAccount.map((option) => (
                   <option
                     key={option.id}
-                    value={`${key} ${option.id}`}
+                    value={option.id}
                   >
-                    {option.name}
+                    {option.teamName}
                   </option>
-                );
-              })
-              : null;
-          })}
-        </Input>
-        {Object.keys(actionFields).map((key) => {
-          return (typeof actionFields[key] === 'string')
-            ? (<Input type="text" className="mt-2" key={key} name="action" onChange={onInputHandler} />)
-            : null;
-        })}
+                ))}
+              </Input>
+              <Input type="select" className="mt-2" id="actionFields" onClick={onActionFieldsHandler}>
+                {Object.keys(actionFields).map((key) => {
+                  return (typeof actionFields[key] === 'object')
+                    ? actionOptions.map((option) => {
+                      return (
+                        <option
+                          key={option.id}
+                          value={`${key} ${option.id}`}
+                        >
+                          {option.name}
+                        </option>
+                      );
+                    })
+                    : null;
+                })}
+              </Input>
+              {Object.keys(actionFields).map((key) => {
+                return (typeof actionFields[key] === 'string')
+                  ? (<Input type="text" className="mt-2" key={key} name="action" onChange={onInputHandler} />)
+                  : null;
+              })}
+            </>
+          )}
         <Row>
           <Col className="mt-3 mb-5 align-center">
             <Button className="mr-2" outline color="primary" size="lg" onClick={submitDetails}>Use Relay</Button>
