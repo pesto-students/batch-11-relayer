@@ -3,11 +3,11 @@ import { Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const Select = ({
-  name, _id, isRequired, options, onSelect,
+  name, _id, options, onSelect,
 }) => {
   const optionsArr = options.map((option) => <option key={option}>{option}</option>);
   return (
-    <Input type="select" name={name} id={_id} required={isRequired} onClick={onSelect}>
+    <Input type="select" name={name} id={_id} required onClick={onSelect}>
       {optionsArr}
     </Input>
   );
@@ -20,7 +20,6 @@ Select.defaultProps = {
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   _id: PropTypes.string.isRequired,
-  isRequired: PropTypes.bool.isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSelect: PropTypes.func,
 };

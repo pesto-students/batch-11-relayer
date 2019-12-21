@@ -1,13 +1,12 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import {
   Row, Col, Label, Button, Input,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Heading, Select, Loading } from '../../common';
+import { Heading, Select } from '../../common';
 import ArrowImg from './ArrowImg';
 import CreateConfiguration from '../CreateConfiguration';
 import { BASE_URL, GET_AUTH_APP, GET_ALL_APPS } from '../../../apiUtils/url.config';
@@ -21,18 +20,9 @@ const RelaySelection = ({ appData, storeRelayData }) => {
   const [selectedApps, setSelectedApps] = useState({ triggerApp: '', actionApp: '' });
   const [selectedTrigger, setSelectedTrigger] = useState('');
   const [selectedAction, setSelectedAction] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [isContinue, setIsContinue] = useState(false);
   const [triggerAppAccount, setTriggerAppAccount] = useState([]);
   const [actionAppAccount, setActionAppAccount] = useState([]);
-
-  window.onstorage = () => {
-    const authStatus = window.localStorage.getItem('AuthStatus');
-    if (authStatus === 'Success') {
-      setIsLoading(false);
-    }
-    window.localStorage.removeItem('AuthStatus');
-  };
 
   const getAccountData = async (appName) => {
     const data = await callAPI(`${BASE_URL + GET_ALL_APPS}/${appName}/authorizedAccounts`);
@@ -96,7 +86,6 @@ const RelaySelection = ({ appData, storeRelayData }) => {
 
   const authorizeTriggerApp = () => {
     if (isValidApp(selectedApps.triggerApp)) {
-      setIsLoading(true);
       window.open(BASE_URL + GET_AUTH_APP + selectedApps.triggerApp,
         `Authorize ${selectedApps.triggerApp}`);
     } else {
@@ -106,7 +95,6 @@ const RelaySelection = ({ appData, storeRelayData }) => {
 
   const authorizeActionApp = () => {
     if (isValidApp(selectedApps.actionApp)) {
-      setIsLoading(true);
       window.open(BASE_URL + GET_AUTH_APP + selectedApps.actionApp,
         `Authorize ${selectedApps.actionApp}`);
     } else {
@@ -146,108 +134,106 @@ const RelaySelection = ({ appData, storeRelayData }) => {
             actionAccount={actionAppAccount}
           />
         )
-        : isLoading
-          ? <Loading />
-          : (
-            <>
-              <Row>
-                <Heading title="Create New Relay" />
-              </Row>
-              <Row>
-                <Col sm="12" md="4">
-                  <Label>Relay Name</Label>
-                  <Input type="text" name="relay-name" onChange={onNameChange} />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm="12" md="4">
-                  <Label>Select App 1</Label>
-                  <Select
-                    name="app1"
-                    _id="appSelect1"
-                    isRequired
-                    options={appNames}
-                    onSelect={onTriggerHandler}
-                  />
-                  <Button
-                    className="mt-3"
-                    outline
-                    color="primary"
-                    onClick={authorizeTriggerApp}
-                  >
-                    Authorize
-                  </Button>
-                </Col>
-                <ArrowImg />
-                <Col sm="12" md="4">
-                  <Label>Select App 2</Label>
-                  <Select
-                    name="app2"
-                    _id="appSelect2"
-                    isRequired
-                    options={appNames}
-                    onSelect={onActionHandler}
-                  />
-                  <Button
-                    className="mt-3"
-                    outline
-                    color="primary"
-                    onClick={authorizeActionApp}
-                  >
-                    Authorize
-                  </Button>
-                </Col>
-              </Row>
-              <Row className="mt-5">
-                <Col sm="12" md="4">
-                  <Label>Select Trigger</Label>
-                  <Select
-                    name="trigger"
-                    _id="triggerSelect"
-                    isRequired
-                    options={triggers.slackTriggers !== []
-                      ? triggers.slackTriggers
-                      : triggers.githubTriggers}
-                    onSelect={onTriggerSelect}
-                  />
-                </Col>
-                <ArrowImg />
-                <Col sm="12" md="4">
-                  <Label>Select Action</Label>
-                  <Select
-                    name="action"
-                    _id="actionSelect"
-                    isRequired
-                    options={actions.slackActions !== []
-                      ? actions.slackActions
-                      : actions.githubActions}
-                    onSelect={onActionSelect}
-                  />
-                </Col>
-              </Row>
-              <Row className="mt-5 mb-5">
-                <Col className="align-center">
-                  <Button
-                    outline
-                    color="primary"
-                    size="lg"
-                    onClick={onContinue}
-                    className="mr-2"
-                  >
-                    Continue
-                  </Button>
-                  <Button
-                    outline
-                    color="danger"
-                    size="lg"
-                    onClick={onCancel}
-                  >
-                    Cancel
-                  </Button>
-                </Col>
-              </Row>
-            </>
-          )}
+        : (
+          <>
+            <Row>
+              <Heading title="Create New Relay" />
+            </Row>
+            <Row>
+              <Col sm="12" md="4">
+                <Label>Relay Name</Label>
+                <Input type="text" name="relay-name" onChange={onNameChange} />
+              </Col>
+            </Row>
+            <Row className="mt-5">
+              <Col sm="12" md="4">
+                <Label>Select App 1</Label>
+                <Select
+                  name="app1"
+                  _id="appSelect1"
+                  isRequired
+                  options={appNames}
+                  onSelect={onTriggerHandler}
+                />
+                <Button
+                  className="mt-3"
+                  outline
+                  color="primary"
+                  onClick={authorizeTriggerApp}
+                >
+                  Authorize
+                </Button>
+              </Col>
+              <ArrowImg />
+              <Col sm="12" md="4">
+                <Label>Select App 2</Label>
+                <Select
+                  name="app2"
+                  _id="appSelect2"
+                  isRequired
+                  options={appNames}
+                  onSelect={onActionHandler}
+                />
+                <Button
+                  className="mt-3"
+                  outline
+                  color="primary"
+                  onClick={authorizeActionApp}
+                >
+                  Authorize
+                </Button>
+              </Col>
+            </Row>
+            <Row className="mt-5">
+              <Col sm="12" md="4">
+                <Label>Select Trigger</Label>
+                <Select
+                  name="trigger"
+                  _id="triggerSelect"
+                  isRequired
+                  options={triggers.slackTriggers.length !== 0
+                    ? triggers.slackTriggers
+                    : triggers.githubTriggers}
+                  onSelect={onTriggerSelect}
+                />
+              </Col>
+              <ArrowImg />
+              <Col sm="12" md="4">
+                <Label>Select Action</Label>
+                <Select
+                  name="action"
+                  _id="actionSelect"
+                  isRequired
+                  options={actions.slackActions.length !== 0
+                    ? actions.slackActions
+                    : actions.githubActions}
+                  onSelect={onActionSelect}
+                />
+              </Col>
+            </Row>
+            <Row className="mt-5 mb-5">
+              <Col className="align-center">
+                <Button
+                  outline
+                  color="primary"
+                  size="lg"
+                  onClick={onContinue}
+                  className="mr-2"
+                >
+                  Continue
+                </Button>
+                <Button
+                  outline
+                  color="danger"
+                  size="lg"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
+          </>
+        )}
     </>
   );
 };
