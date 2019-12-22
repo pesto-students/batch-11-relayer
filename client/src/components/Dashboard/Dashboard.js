@@ -31,14 +31,13 @@ const Dashboard = () => {
   const toggleTab = (id) => {
     if (id !== activeTab) setActiveTab(id);
   };
-  console.log('inside dashboard');
   return (
     <Container className={styles.dashboard}>
       <Card>
         <CardHeader>
           <p className={`${styles.head1} ml-3 d-inline`}> Dashboard </p>
           <Link to="/create">
-            <Button className="float-right mr-3" color="primary"> Create </Button>
+            <Button className="float-right mr-sm-0 mr-md-3" color="primary"> Create </Button>
           </Link>
         </CardHeader>
         <CardBody>

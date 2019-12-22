@@ -4,17 +4,19 @@ import React, { useState } from 'react';
 import {
   Container, Row, Col, Button, Input, Label,
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Heading } from '../../common';
 import callAPI from '../../../apiUtils/apiCaller';
 import {
   BASE_URL, GET_ALL_APPS, POST_APP_DETAILS, POST_CREATE_RELAY,
 } from '../../../apiUtils/url.config';
+import { useRelays } from '../../../shared/RelayProvider';
+
 
 const CreateConfiguration = ({
-  apps, trigger, action, triggerAccount, actionAccount, storeRelayData, relayData,
+  apps, trigger, action, triggerAccount, actionAccount,
 }) => {
+  const { relayData, storeRelayData } = useRelays();
   const [triggerFields, setTriggerFields] = useState({});
   const [actionFields, setActionFields] = useState({});
   const [appKey, setAppKey] = useState({ triggerKey: '', actionKey: '' });
@@ -93,7 +95,7 @@ const CreateConfiguration = ({
     };
     participantApps.push(triggerApp);
     participantApps.push(actionApp);
-    storeRelayData({ participantApps });
+    storeRelayData({ ...relayData, participantApps });
   };
 
   const onCancel = (e) => {
@@ -136,14 +138,28 @@ const CreateConfiguration = ({
               : null;
           })}
         </Input>
+        <Label className="mt-5">
+          Configure
+          {` ${apps.actionApp}`}
+        </Label>
         {apps.actionApp === 'Github'
-          ? null
+          ? (
+            <>
+              <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
+                {actionAccount.map((option) => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.teamName}
+                  </option>
+                ))}
+              </Input>
+              <Input type="text" className="mt-2" name="action" onChange={onInputHandler} />
+            </>
+          )
           : (
             <>
-              <Label className="mt-5">
-                Configure
-                {` ${apps.actionApp}`}
-              </Label>
               <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
                 {actionAccount.map((option) => (
                   <option
@@ -197,20 +213,12 @@ CreateConfiguration.propTypes = {
   action: PropTypes.string.isRequired,
   triggerAccount: PropTypes.arrayOf(PropTypes.object).isRequired,
   actionAccount: PropTypes.arrayOf(PropTypes.object).isRequired,
-  storeRelayData: PropTypes.func.isRequired,
-  relayData: PropTypes.shape({
+  // storeRelayData: PropTypes.func.isRequired,
+  /*relayData: PropTypes.shape({
     relayName: PropTypes.string,
     iSRunning: PropTypes.bool,
     participantApps: PropTypes.array,
-  }).isRequired,
+  }).isRequired,*/
 };
 
-const mapStateToProps = (state) => {
-  return { relayData: state.relayData };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return { storeRelayData: (value) => { dispatch({ type: 'STORE_PARTICIPANT_APP', value }); } };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateConfiguration);
+export default CreateConfiguration;

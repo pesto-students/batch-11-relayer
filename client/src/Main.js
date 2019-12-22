@@ -1,43 +1,32 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Header } from './components/common';
-import LandingPage from './components/LandingPage/LandingPage';
+import { connect } from 'react-redux';
+import { Spinner } from 'reactstrap';
+import PropTypes from 'prop-types';
 import {
-  CreateNewRelay, TaskHistory, MyApps,
+  Dashboard,
+  CreateNewRelay,
+  TaskHistory,
+  MyApps,
 } from './components/Dashboard';
 import TaskHistoryDetail from './components/Dashboard/TaskHistory/TaskHistoryDetail';
 import { SignUp, SignIn } from './components/Authentication/UserActions';
-import { useUser } from './shared/UserProvider';
-import Dashboard from './components/Dashboard/Dashboard';
+import LandingPage from './components/LandingPage/LandingPage';
+import { Header } from './components/common';
 
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={() => {
-        console.log(status);
-      	return status === 'SUCCESS'
-          ? <Component />
-          : <Redirect to="/" />;
-      }}
-    />
-  );
-const Main = () => {
-  const { user } = useUser();
-  console.log(user.status);
-  const status = user.status;
-  // const user = { status: 'SUCCESS' };
+const mapStateToProps = (state) => ({ auth: state.auth });
 
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={() => {
-        console.log(status);
-      	return status === 'SUCCESS'
-          ? <Component />
-          : <Redirect to="/" />;
-      }}
-    />
-  );
+const Main = ({ auth }) => {
+  const PrivateRoute = (args) => {
+    if (auth.isLoading) {
+      return <Spinner className="spinner" color="primary" />;
+    }
+    if (auth.isAuthenticated) {
+      return <Route {...args} />;
+    }
+    return <h1 className="error"> Sign up to have more fun </h1>;
+  };
+
   return (
     <>
       <Header />
@@ -49,11 +38,15 @@ const Main = () => {
         <Route exact path="/taskhistory" component={TaskHistory} />
         <Route exact path="/taskhistory/:id" component={TaskHistoryDetail} />
         <Route exact path="/myapps" component={MyApps} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <Redirect from="/" to="/home" />
       </Switch>
     </>
   );
 };
 
-export default Main;
+Main.propTypes = {
+  auth: PropTypes.instanceOf(Object).isRequired,
+};
+
+export default connect(mapStateToProps)(Main);

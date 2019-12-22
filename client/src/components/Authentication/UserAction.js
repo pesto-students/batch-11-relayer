@@ -1,23 +1,28 @@
 import React from 'react';
 import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import UserForm from './UserForm';
-import { useUser } from '../../shared/UserProvider';
-import callAPI from '../../utils/apiCaller';
 import * as env from '../../utils/url.config';
+import { loginUser, signupUser } from '../../store/AuthActionCreator';
+
+const mapDispatchToProps = (dispatch) => ({
+  loginUser: (url, creds) => dispatch(loginUser(url, creds)),
+  signupUser: (url, creds) => dispatch(signupUser(url, creds)),
+});
 
 const UserAction = (props) => {
-  const { setUser } = useUser();
   const { action } = props;
   const userAction = async (event, email, pass) => {
     const formattedAction = action.replace(' ', '').toLowerCase();
-    const data = { email: email.current.value, password: pass.current.value };
+    const creds = { email: email.current.value, password: pass.current.value };
     const endpoint = formattedAction === 'signin' ? env.POST_USER_SIGN_IN : env.POST_USER_SIGN_UP;
     const url = env.BASE_URL + endpoint;
-    const response = await callAPI(url, 'POST', data);
-    // const { status, message, error } = response;
-    setUser(response);
-    console.log(response);
+    if (formattedAction === 'signin') {
+      props.loginUser(url, creds);
+    } else {
+      props.signupUser(url, creds);
+    }
   };
 
   return (
@@ -34,4 +39,4 @@ UserAction.propTypes = {
   action: PropTypes.string,
 }.isRequired;
 
-export default UserAction;
+export default connect(null, mapDispatchToProps)(UserAction);
