@@ -9,17 +9,6 @@ import TaskHistoryDetail from './components/Dashboard/TaskHistory/TaskHistoryDet
 import { SignUp, SignIn } from './components/Authentication/UserActions';
 import Dashboard from './components/Dashboard/Dashboard';
 
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={() => {
-        console.log(status);
-      	return status === 'SUCCESS'
-          ? <Component />
-          : <Redirect to="/" />;
-      }}
-    />
-  );
 const Main = () => {
   return (
     <>
