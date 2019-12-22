@@ -136,14 +136,28 @@ const CreateConfiguration = ({
               : null;
           })}
         </Input>
+        <Label className="mt-5">
+          Configure
+          {` ${apps.actionApp}`}
+        </Label>
         {apps.actionApp === 'Github'
-          ? null
+          ? (
+            <>
+              <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
+                {actionAccount.map((option) => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.teamName}
+                  </option>
+                ))}
+              </Input>
+              <Input type="text" className="mt-2" name="action" onChange={onInputHandler} />
+            </>
+          )
           : (
             <>
-              <Label className="mt-5">
-                Configure
-                {` ${apps.actionApp}`}
-              </Label>
               <Input type="select" name="actionAcc" onClick={getConfigurationOnAction}>
                 {actionAccount.map((option) => (
                   <option
