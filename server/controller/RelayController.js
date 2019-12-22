@@ -108,6 +108,7 @@ const createNewRelay = async (req, res) => {
   try {
     const relayDetails = req.body;
     relayDetails.userId = req.userId;
+    console.log(relayDetails);
     const createdRelay = await RelayCollection.create(relayDetails);
 
     const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS,

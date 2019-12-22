@@ -1,19 +1,19 @@
 import makeRequest from '../../lib/requestLib';
-import * as actionStatus from "../../constants/actionStatus"
-const getLoggedInUser = async(authToken) => {
+import * as actionStatus from '../../constants/actionStatus';
+
+const getLoggedInUser = async (authToken) => {
   const requestOptions = {
     method: 'GET',
     url: 'https://api.github.com/user',
-    headers: {
-      authorization: `Bearer ${authToken}`}
+    headers: { authorization: `Bearer ${authToken}` },
   };
-  const response = await makeRequest(requestOptions)
-  return response
-}
+  const response = await makeRequest(requestOptions);
+  return response;
+};
 
 exports.getAllRepo = async (authToken, options = {}) => {
   try {
-    const loggedInUserDetails = await getLoggedInUser(authToken)
+    const loggedInUserDetails = await getLoggedInUser(authToken);
     const requestOptions = {
       url: `https://api.github.com/users/${loggedInUserDetails.login}/repos`,
       method: 'GET',
@@ -26,31 +26,56 @@ exports.getAllRepo = async (authToken, options = {}) => {
     response.forEach((repo, index) => {
       responseString += `${index + 1}. ${repo.name} (${repo.html_url})\n`;
     });
-    return {status:actionStatus.SUCCESS,responseMessage:responseString};
+    return { status: actionStatus.SUCCESS, responseMessage: responseString };
   } catch (e) {
-    return {status:actionStatus.SUCCESS,responseMessage:'Failed To Fetch All Repository'};
+    return { status: actionStatus.SUCCESS, responseMessage: 'Failed To Fetch All Repository' };
   }
 };
-exports.createRepo = async (authToken,options) => {
+exports.createRepo = async (authToken, options) => {
   try {
     const requestOptions = {
-      url: `https://api.github.com/user/repos`,
+      url: 'https://api.github.com/user/repos',
       method: 'POST',
       headers: {
-        authorization: `Bearer ${authToken}`
+        authorization: `Bearer ${authToken}`,
       },
       json: {
-        name: options.name
-      }
+        name: options.name,
+      },
     };
-    const response = await makeRequest(requestOptions)
+    const response = await makeRequest(requestOptions);
     const responseMessage = `Github Repository Created \n
     Name: ${response.name}
     Url: ${response.html_url}
-    `
-    return {status:actionStatus.SUCCESS,responseMessage:responseMessage};
+    `;
+    return { status: actionStatus.SUCCESS, responseMessage };
   } catch (e) {
-    const errObject = JSON.parse(e.message)
-    return {status:actionStatus.FAILED,responseMessage: `${errObject.errors[0].message}`};
+    const errObject = JSON.parse(e.message);
+    return { status: actionStatus.FAILED, responseMessage: `${errObject.errors[0].message}` };
   }
-}
+};
+exports.createIssue = async (authToken, options) => {
+  try {
+    const loggedInUserDetails = await getLoggedInUser(authToken);
+    const requestOptions = {
+      url: `https://api.github.com/repos/${loggedInUserDetails.login}/${options.repo}/issues`,
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+      json: {
+        name: options.title,
+        body: options.body,
+      },
+    };
+    const response = await makeRequest(requestOptions);
+    const responseMessage = `Github Repository Created \n
+    Name: ${response.name}
+    Url: ${response.html_url}
+    `;
+    return { status: actionStatus.SUCCESS, responseMessage };
+  } catch (e) {
+    const errObject = JSON.parse(e.message);
+    return { status: actionStatus.FAILED, responseMessage: `${errObject.errors[0].message}` };
+  }
+};

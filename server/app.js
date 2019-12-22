@@ -21,7 +21,7 @@ const routeDirPath = path.join(__dirname, 'routes');
 const publicFolder = path.join(__dirname, '../assets');
 requireAll(modelDirPath);
 const routes = requireAll(routeDirPath);
-app.use(pino());
+//app.use(pino());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicFolder));

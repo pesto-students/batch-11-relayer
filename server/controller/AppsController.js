@@ -46,6 +46,7 @@ const getAuthorizedAccounts = async (req, res) => {
 
   const generatedResponse = responseLib.generateResponse(false, actionStatus.SUCCESS,
     'Authorized accounts for app', authorizedAccountsForApp);
+    console.log(generatedResponse);
   res.send(generatedResponse);
 };
 

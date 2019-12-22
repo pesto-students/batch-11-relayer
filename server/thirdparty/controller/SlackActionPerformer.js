@@ -7,7 +7,7 @@ import RelayHistory from '../../models/RelayHistory';
 
 const getCredentialsFromAuthedApps = async (_id) => AuthorizedApps.findOne(_id);
 
-const SlackActionPerformer = async (relayId, action, triggerEvent) => {
+const SlackActionPerformer = async (relayId, action, triggerEvent, historyId) => {
   for (const slackEvent of IntegrationConfig.Slack.Events) {
     if (slackEvent.EventName === action.event) {
       const authDetails = await getCredentialsFromAuthedApps(action.authentication);
@@ -33,15 +33,16 @@ const SlackActionPerformer = async (relayId, action, triggerEvent) => {
         data: actionInputs,
       };
 
-      const relayHistory = { relayId };
+      const relayHistory = { relayId: historyId };
 
       axios(axiosOptions)
         .then(() => {
-          relayHistory.status = 'Success';
+          relayHistory.status = 'SUCCESS';
         })
         .catch(() => {
-          relayHistory.status = 'Failed';
+          relayHistory.status = 'FAILED';
         }).finally(() => {
+          relayHistory.message = 'From: Slack --> To: Slack Action: Message Fowrawred';
           RelayHistory.create(relayHistory);
         });
     }

@@ -32,12 +32,14 @@ const createUser = async (req, res) => {
   const { userId } = await UsersCollection.create(userObject);
   const authToken = createAuthToken(userId);
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Signup Successful', { authToken });
-  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
+  res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000 });
   res.send(generatedResponse);
 };
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
+  console.log('Sign IN Called')
+  console.log(email, password)
   const retrievedUser = await UsersCollection.findOne({ email });
   if (!retrievedUser) {
     const generatedResponse = response.generateResponse(true, actionStatus.NOT_ALLOWED, 'Either Email or Password Is Wrong', null);
@@ -54,7 +56,7 @@ const signIn = async (req, res) => {
       userId: retrievedUser.userId,
       email: retrievedUser.email,
     });
-    res.cookie('authToken', authToken, { httpOnly: true, maxAge: 86400000, domain: req.headers.host });
+    res.cookie('authToken', authToken, { maxAge: 86400000 });
     res.send(generatedResponse);
   }
 };
@@ -66,7 +68,7 @@ const getAuthenticatedUserDetails = async (req, res) => {
   res.send(generatedResponse);
 };
 const signOut = (req, res) => {
-  res.clearCookie('authToken', { domain: req.headers.host });
+  res.clearCookie('authToken');
   const generatedResponse = response.generateResponse(false, actionStatus.SUCCESS, 'Logged Out', null);
   res.send(generatedResponse);
 };

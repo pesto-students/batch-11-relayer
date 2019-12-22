@@ -9,7 +9,7 @@ const ActionPerformer = async (relay, triggerEvent) => {
     if (action.eventType === 'Action') {
       const correspondingActionPerformer = `${action.appName.toLowerCase()}ActionPerformer`;
 
-      eventEmitter.emit(correspondingActionPerformer, relay._id, action, triggerEvent);
+      eventEmitter.emit(correspondingActionPerformer, relay._id, action, triggerEvent, relay.relayId);
     }
   }
 };

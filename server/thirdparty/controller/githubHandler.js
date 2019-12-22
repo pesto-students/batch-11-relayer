@@ -12,13 +12,14 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
   const authorizedSlackApp = await AuthorizedApps.findOne({ appName: 'Slack', 'credentials.slackUserId': authenticatedUser[0] }).lean();
   const authorizedGithubApp = await AuthorizedApps.findOne({ appName: 'Github', userId: authorizedSlackApp.userId }).lean();
   const messageConfig = { channel: event.channel, token: authorizedSlackApp.authToken };
+  console.log(authorizedSlackApp)
   const foundRelay = await Relay.findOne({
     userId: authorizedSlackApp.userId,
     isRunning: true,
     isDeleted: false,
     $and: [
-      { participantApps: { $elemMatch: { appName: 'slack', eventType: 'Trigger' } } },
-      { participantApps: { $elemMatch: { appName: 'github', eventType: 'Action' } } },
+      { participantApps: { $elemMatch: { appName: 'Slack', eventType: 'Trigger' } } },
+      { participantApps: { $elemMatch: { appName: 'Github', eventType: 'Action' } } },
     ],
   }).lean();
   switch (action) {
@@ -68,6 +69,27 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
       });
       break;
     }
+    case 'createIssue': {
+      const options = validateArgs(event.text, ['name', 'repo']);
+      let responseText = '';
+      let response = {};
+      if (!options) {
+        responseText = 'Repository name needs to be passed: `github:createRepo --name Repo Name` ';
+      } else {
+        response = await createRepo(authorizedGithubApp.authToken, options);
+        responseText = response.responseMessage;
+      }
+      await postMessage({ ...messageConfig, text: responseText });
+      eventEmitter.emit('relayHistory:create', {
+        relayId: foundRelay.relayId,
+        from: 'Slack',
+        to: 'Github',
+        action: responseText,
+        status: response.status,
+      });
+      break;
+    }
+
     default: {
       const message = '*Command Not Found* \n'
             + '1. `github:help` Shows the help command \n'
@@ -77,5 +99,6 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
   }
 };
 export {
+  // eslint-disable-next-line import/prefer-default-export
   performGithubActionOnSlackTrigger,
 };

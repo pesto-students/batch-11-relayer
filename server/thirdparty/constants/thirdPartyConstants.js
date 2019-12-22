@@ -8,6 +8,6 @@ exports.SLACK_CLIENT_SECRET = 'client_secret=e1cc055910599f749f3d5a9d6fc74a94'; 
 exports.GITHUB_URL = 'https://github.com/login/oauth/authorize?';
 exports.GITHUB_CLIENT_ID = 'client_id=7e54f4b44fd9428adb07';
 exports.GITHUB_SCOPE = 'scope=repo user notifications';
-exports.GITHUB_REDIRECT_URL = 'redirect_uri=https://relayer-api.herokuapp.com/auth/github/callback';
+exports.GITHUB_REDIRECT_URL = 'redirect_uri=https://d446c646.ngrok.io/auth/github/callback';
 exports.GITHUB_AUTH_GRANT_URL = 'https://github.com/login/oauth/access_token?';
 exports.GITHUB_CLIENT_SECRET = 'client_secret=939d32fd521afb2b3628cee92f4e2a8c7c4c9665'; // Move this to some other place
