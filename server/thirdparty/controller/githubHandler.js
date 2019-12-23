@@ -1,6 +1,6 @@
 import Relay from '../../models/Relays';
 import AuthorizedApps from '../../models/AuthorizedApps';
-import { createRepo, getAllRepo } from '../lib/githubLib';
+import { createRepo, getAllRepo , createIssue} from '../lib/githubLib';
 import { postMessage } from '../lib/slackLib';
 import eventEmitter from '../../lib/eventsLib';
 import '../../lib/relayHistoryLib';
@@ -25,7 +25,8 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
   switch (action) {
     case 'help': {
       const message = '1. `github:help` Shows the help command \n'
-                       + '2. `github:allRepo` Shows all your repo';
+                       + '2. `github:allRepo` Shows all your repo \n'
+                       + '3. `github:createIssue --repo reponame --name issueName` Shows all your repo \n';
       await postMessage({ ...messageConfig, text: message });
       console.log('Before event emit');
       eventEmitter.emit('relayHistory:create', {
@@ -74,9 +75,9 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
       let responseText = '';
       let response = {};
       if (!options) {
-        responseText = 'Repository name needs to be passed: `github:createRepo --name Repo Name` ';
+        responseText = 'Repository name needs to be passed: `github:createIssue --name Repo Name --title Issue Title` ';
       } else {
-        response = await createRepo(authorizedGithubApp.authToken, options);
+        response = await createIssue(authorizedGithubApp.authToken, options);
         responseText = response.responseMessage;
       }
       await postMessage({ ...messageConfig, text: responseText });
@@ -92,8 +93,9 @@ const performGithubActionOnSlackTrigger = async (event, authenticatedUser) => {
 
     default: {
       const message = '*Command Not Found* \n'
-            + '1. `github:help` Shows the help command \n'
-            + '2. `github:allRepo` Shows all your repo';
+      + '1. `github:help` Shows the help command \n'
+      + '2. `github:allRepo` Shows all your repo \n'
+      + '3. `github:createIssue --repo reponame --name issueName` Shows all your repo \n';
       await postMessage({ ...messageConfig, text: message });
     }
   }

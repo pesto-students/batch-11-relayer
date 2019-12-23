@@ -64,13 +64,15 @@ exports.createIssue = async (authToken, options) => {
         authorization: `Bearer ${authToken}`,
       },
       json: {
-        name: options.title,
+        title: options.name,
         body: options.body,
       },
     };
+    console.log(requestOptions)
     const response = await makeRequest(requestOptions);
-    const responseMessage = `Github Repository Created \n
-    Name: ${response.name}
+    console.log(response)
+    const responseMessage = `New Issue Created \n
+    Name: ${response.title}
     Url: ${response.html_url}
     `;
     return { status: actionStatus.SUCCESS, responseMessage };
