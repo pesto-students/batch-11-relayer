@@ -18,6 +18,7 @@ const UserAction = (props) => {
     const creds = { email: email.current.value, password: pass.current.value };
     const endpoint = formattedAction === 'signin' ? env.POST_USER_SIGN_IN : env.POST_USER_SIGN_UP;
     const url = env.BASE_URL + endpoint;
+
     if (formattedAction === 'signin') {
       props.loginUser(url, creds);
     } else {

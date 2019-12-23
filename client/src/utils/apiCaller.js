@@ -23,9 +23,8 @@ async function callAPI(url, method, data) {
       throw new Error(error.message);
     })
     .then((response) => response.json())
-    .then((userData) => userData)
     .catch((error) => {
-      console.log(error);
+      console.log('Error: ', error);
       return UNAUTHORIZED;
     });
 }
