@@ -30,11 +30,13 @@ const ShowRelays = ({ relays, fetchRelays }) => {
                 <Relay fetchRelays={fetchRelays} relay={relay} />
               </CardTitle>
               <CardText>
-                Last Modified: &nbsp;
+                Last Modified:
+                {' '}
                 {new Date(relay.updatedAt).toLocaleDateString().split('/').join('-')}
               </CardText>
               <CardText>
-                Created On: &nbsp;
+                Created On:
+                {' '}
                 {new Date(relay.createdAt).toLocaleDateString().split('/').join('-')}
               </CardText>
             </Col>
@@ -59,18 +61,17 @@ const ShowAllRelays = () => {
     callAPI(`${env.BASE_URL + env.GET_ALL_RELAYS}?isDeleted=false`, 'GET')
       .then((res) => {
         if (!res.error) {
-          console.log(res);
           setRelays(res.body);
         } else {
-          console.log(res.error);
+          throw new Error();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => new Error(err));
   };
 
   React.useEffect(() => {
     fetchRelays();
-  }, relays);
+  }, []);
 
   return (
     <PageProvider>

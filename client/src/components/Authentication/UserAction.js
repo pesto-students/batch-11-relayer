@@ -15,9 +15,9 @@ const UserAction = (props) => {
     const endpoint = formattedAction === 'signin' ? env.POST_USER_SIGN_IN : env.POST_USER_SIGN_UP;
     const url = env.BASE_URL + endpoint;
     const response = await callAPI(url, 'POST', data);
+    console.log('Response: ', response);
     // const { status, message, error } = response;
     setUser(response);
-    console.log(response);
   };
 
   return (
