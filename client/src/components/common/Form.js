@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { createRef } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import {
   Form as ReactstrapForm,
   Input,
@@ -11,13 +11,14 @@ import {
   Label,
 } from 'reactstrap';
 
-const Form = ({ onClick, action, formFields }) => {
+const Form = (props) => {
   const refs = [];
   const onSubmit = (event) => {
-    onClick(event, ...refs);
+    props.onClick(event, ...refs);
+    props.history.push('/dashboard');
   };
 
-  const RenderFields = () => formFields.map((field, idx) => {
+  const RenderFields = () => props.formFields.map((field, idx) => {
     const { button, label, input } = field;
     const ref = createRef();
     const key = idx.toString();
@@ -35,15 +36,13 @@ const Form = ({ onClick, action, formFields }) => {
       );
     }
     return (
-      <NavLink to="/dashboard" onClick={onSubmit}>
-        <Button key={key} className={button.className} color={button.color}>
-          {action}
-        </Button>
-      </NavLink>
+      <Button key={key} className={button.className} color={button.color}>
+        {props.action}
+      </Button>
     );
   });
   return (
-    <ReactstrapForm>
+    <ReactstrapForm onSubmit={onSubmit}>
       <RenderFields />
     </ReactstrapForm>
   );
@@ -53,4 +52,4 @@ Form.propTypes = {
   formFields: PropTypes.array,
 }.isRequired;
 
-export default Form;
+export default withRouter(Form);

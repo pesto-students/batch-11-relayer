@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import {
   Row, Col, Label, Button, Input,
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Heading, Select } from '../../common';
 import ArrowImg from './ArrowImg';
 import CreateConfiguration from '../CreateConfiguration';
+import { useRelays } from '../../../shared/RelayProvider';
 import { BASE_URL, GET_AUTH_APP, GET_ALL_APPS } from '../../../apiUtils/url.config';
 import callAPI from '../../../apiUtils/apiCaller';
 
-const RelaySelection = ({ appData, storeRelayData }) => {
+const RelaySelection = ({ appData }) => {
+  const { relayData, storeRelayData } = useRelays();
   const appNames = appData.map((app) => app.AppName);
   appNames.unshift('Select');
   const [triggers, setTriggers] = useState({ slackTriggers: [], githubTriggers: [] });
@@ -72,7 +73,7 @@ const RelaySelection = ({ appData, storeRelayData }) => {
 
   const onNameChange = (e) => {
     const relayName = e.target.value;
-    storeRelayData({ relayName });
+    storeRelayData({ ...relayData, relayName });
   };
 
   const isValidApp = (app) => {
@@ -245,11 +246,7 @@ RelaySelection.propTypes = {
     AppName: PropTypes.string,
     Icon: PropTypes.string,
   })).isRequired,
-  storeRelayData: PropTypes.func.isRequired,
+  // storeRelayData: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return { storeRelayData: (value) => { dispatch({ type: 'STORE_RELAY_DATA', value }); } };
-};
-
-export default connect(null, mapDispatchToProps)(RelaySelection);
+export default RelaySelection;

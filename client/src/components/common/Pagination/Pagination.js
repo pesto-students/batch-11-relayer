@@ -26,7 +26,7 @@ const Pagination = ({ totalItems }) => {
   return (
     <Paginate aria-label="Relays" className="align-center mt-5 text-center">
       {handlePages(handlePageNav, pagesPerList, pageList, currentPage, pages, totalLists)
-        .map((props) => <Item {...props} />)}
+        .map((props, index) => <Item key={index} {...props} />)}
     </Paginate>
   );
 };

@@ -5,6 +5,7 @@ import {
 import RelaySelection from './RelaySelection';
 import callAPI from '../../../apiUtils/apiCaller';
 import { BASE_URL, GET_ALL_APPS } from '../../../apiUtils/url.config';
+import { RelayProvider } from '../../../shared/RelayProvider';
 
 const CreateNewRelay = () => {
   const [relayData, setRelayData] = useState([]);
@@ -20,7 +21,9 @@ const CreateNewRelay = () => {
   return (
     <Container>
       <Form>
-        <RelaySelection appData={relayData} />
+        <RelayProvider>
+          <RelaySelection appData={relayData} />
+        </RelayProvider>
       </Form>
     </Container>
   );

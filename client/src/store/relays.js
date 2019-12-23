@@ -6,7 +6,7 @@ const initialState = {
   },
 };
 
-const reducer = (state = initialState, action) => {
+const Relays = (state = initialState, action) => {
   switch (action.type) {
     case 'STORE_RELAY_DATA':
       return {
@@ -29,4 +29,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default Relays;

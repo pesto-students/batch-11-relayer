@@ -20,3 +20,4 @@ export const GET_RELAY = 'api/v1/relay';
 // constants for users
 export const POST_USER_SIGN_UP = 'user/signup';
 export const POST_USER_SIGN_IN = 'user/signin';
+export const POST_USER_SIGN_OUT = 'user/signout';

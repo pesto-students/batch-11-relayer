@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import {
   Button,
   Navbar,
@@ -9,30 +9,39 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { useUser } from '../../shared/UserProvider';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { CustomModal } from './index';
 import UserIcon from '../../assets/icons/user-circle-solid.svg';
+import { logoutUser } from '../../store/AuthActionCreator';
+import { BASE_URL, POST_USER_SIGN_OUT } from '../../utils/url.config';
 
-const Header = () => {
-  const { setUser } = useUser();
+const mapStateToProps = (state) => ({ auth: state.auth });
+const mapDispatchToProps = (dispatch) => ({
+  logoutUser: (url) => dispatch(logoutUser(url)),
+});
+
+
+const Header = ({ auth, logoutUser, history }) => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => {
     setModal(!modal);
-    setUser({});
+    const url = BASE_URL + POST_USER_SIGN_OUT;
+    logoutUser(url);
+    history.push('/');
   };
 
-  const { user } = useUser();
   const HeaderRigth = () => {
-    if (user.status === 'SUCCESS') {
+    if (auth.isAuthenticated) {
       return (
         <UncontrolledDropdown>
           <DropdownToggle caret color="primary" className="mr-5">
             <img className="mr-2" src={UserIcon} alt="user-icon" width="30px" height="50px" />
           </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem> Profile </DropdownItem>
+          <DropdownMenu className="mr-4">
+            <DropdownItem href="/dashboard"> Dashboard </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem onClick={toggle} href="/"> Logout </DropdownItem>
+            <DropdownItem onClick={() => setModal(!modal)}> Logout </DropdownItem>
           </DropdownMenu>
           <CustomModal
             _modalTitle="Confirmation"
@@ -67,4 +76,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  auth: PropTypes.instanceOf(Object).isRequired,
+  logoutUser: PropTypes.func,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

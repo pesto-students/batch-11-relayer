@@ -11,7 +11,7 @@ const DashboardNav = ({ activeTab, tabs, toggle }) => {
   return (
     <Nav tabs>
       {tabs.map((tab) => (
-        <NavItem>
+        <NavItem key={tab.id}>
           <NavLink
             className={classnames({ active: tab.id === activeTab })}
             onClick={() => toggle(tab.id)}
