@@ -22,7 +22,7 @@
     "express-pino-logger": "^4.0.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.3",
     "moment": "^2.24.0",
     "mongoose": "^5.7.13",
     "nodemon": "^2.0.1",
