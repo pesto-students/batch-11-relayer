@@ -30,7 +30,7 @@
     "request": "^2.88.0",
     "require-all": "^3.0.0",
     "shortid": "^2.2.15",
-    "yargs-parser": "^16.1.0"
+    "yargs-parser": "^18.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
